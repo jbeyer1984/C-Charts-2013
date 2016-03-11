@@ -19,6 +19,13 @@ namespace Charts
         private Color legendBorderColor;
         private Font legendFont;
 
+        public DynamicDataLegend dd; 
+        //public float spacing;
+        //public float textHeight;
+        //public float htextHeight;
+        //public float lineLength;
+        //public float hlineLength;
+
         public Legend()
         {
             legendPosition = LegendPositionEnum.NorthEast;
@@ -28,6 +35,19 @@ namespace Charts
             legendBackColor = Color.White;
             legendBorderColor = Color.Black;
             legendFont = new Font("Arial", 8, FontStyle.Regular);
+
+            initDynamicFields();
+        }
+
+        public void initDynamicFields() //@todo create interface for method
+        {
+            dd = new DynamicDataLegend();
+
+            dd.spacing = 8.0f;
+            dd.textHeight = 8.0f;
+            dd.htextHeight = dd.textHeight / 2.0f;
+            dd.lineLength = 30.0f;
+            dd.hlineLength = dd.lineLength / 2.0f;
         }
 
         public void AddLegend(Graphics g, DataCollection dc, ChartStyle cs) 
@@ -106,11 +126,11 @@ namespace Charts
            float yCenter, float hWidth, float hHeight, 
            DataCollection dc, ChartStyle cs) 
         { 
-            float spacing = 8.0f; 
-            float textHeight = 8.0f; 
-            float htextHeight = textHeight / 2.0f; 
-            float lineLength = 30.0f; 
-            float hlineLength = lineLength / 2.0f; 
+            //float spacing = 8.0f; 
+            //float textHeight = 8.0f; 
+            //float htextHeight = textHeight / 2.0f; 
+            //float lineLength = 30.0f; 
+            //float hlineLength = lineLength / 2.0f; 
             Rectangle legendRectangle; 
             Pen aPen = new Pen(LegendBorderColor, 1f); 
             SolidBrush aBrush = new SolidBrush(LegendBackColor); 
@@ -128,14 +148,14 @@ namespace Charts
                 int n = 1; 
                 foreach (DataSeries ds in dc.DataSeriesList) { 
                     // Draw lines and symbols: 
-                    float xSymbol = legendRectangle.X + spacing + hlineLength; 
-                    float xText = legendRectangle.X + 2 * spacing + lineLength; 
-                    float yText = legendRectangle.Y + n * spacing + 
-                         (2 * n - 1) * htextHeight; 
+                    float xSymbol = legendRectangle.X + dd.spacing + dd.hlineLength; 
+                    float xText = legendRectangle.X + 2 * dd.spacing + dd.lineLength; 
+                    float yText = legendRectangle.Y + n * dd.spacing + 
+                         (2 * n - 1) * dd.htextHeight; 
                     aPen = new Pen(ds.LineStyle.LineColor, ds.LineStyle.Thickness);
-                    aPen.DashStyle = ds.LineStyle.Pattern; 
-                    PointF ptStart = new PointF(legendRectangle.X + spacing, yText); 
-                    PointF ptEnd = new PointF(legendRectangle.X + spacing + lineLength, yText); 
+                    aPen.DashStyle = ds.LineStyle.Pattern;
+                    PointF ptStart = new PointF(legendRectangle.X + dd.spacing, yText);
+                    PointF ptEnd = new PointF(legendRectangle.X + dd.spacing + dd.lineLength, yText); 
                     g.DrawLine(aPen, ptStart, ptEnd); 
                     // Draw text: 
                     StringFormat sFormat = new StringFormat(); 

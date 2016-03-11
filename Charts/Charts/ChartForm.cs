@@ -12,11 +12,12 @@ using System.Windows.Forms;
 
 namespace Charts
 {
-    public partial class Form1 : Form
+    public partial class ChartForm : Form
     {
         private DataCollection dc;
         private ChartStyle cs;
         private Legend lg;
+        private DynamicSettingsBox dynamicSettingsBox;
         //private Rectangle PlotArea;
         private int offset = 30;
 
@@ -25,11 +26,13 @@ namespace Charts
         private float yMin = 3f;
         private float yMax = 6f;
 
-        public Form1()
+        public ChartForm()
         {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             this.BackColor = Color.White;
+            this.Location = new Point(125, 124);
+            this.Size = new Size(664, 437);
 
             dc = new DataCollection(); 
             cs = new ChartStyle(this);
@@ -69,29 +72,32 @@ namespace Charts
             g.Dispose();
         }
 
-        private void drawingPanelPaint(object sender, PaintEventArgs e)
-        {
-            drawingPanel.Left = offset;
-            drawingPanel.Top = offset;
-            drawingPanel.Width = ClientRectangle.Width - 2 * offset;
-            drawingPanel.Height = ClientRectangle.Height - 2 * offset;
+        //private void drawingPanelPaint(object sender, PaintEventArgs e)
+        //{
+        //    drawingPanel.Left = offset;
+        //    drawingPanel.Top = offset;
+        //    //drawingPanel.Width = ClientRectangle.Width - 2 * offset;
+        //    //drawingPanel.Height = ClientRectangle.Height - 2 * offset;
+        //    drawingPanel.Width = 200;
+        //    drawingPanel.Height = 200;
+        //    //drawingPanel.Visible = true;
 
-            Graphics g = e.Graphics;
-            ChartStyle chartStyle = new ChartStyle(this);
-            chartStyle.AddChartStyle(g);
+        //    Graphics g = e.Graphics;
 
-            AddData();
-            SetPlotArea(g);
-            cs.AddChartStyle(g);
-            dc.AddLines(g, cs);
-            g.Dispose();
+        //    if (null == dynamicSettingsBox)
+        //    {
+        //        dynamicSettingsBox = new DynamicSettingsBox(drawingPanel, this);
+        //        dynamicSettingsBox.addDynamicSettingsBox(g);
+        //    }
+        //    //ChartStyle chartStyle = new ChartStyle(this);
+        //    //chartStyle.AddChartStyle(g);
 
-            //Pen aPen = new Pen(Color.Green, 3);
-            //g.DrawLine(aPen, Point2D(new PointF(2, 3)),
-            //Point2D(new PointF(6, 7)));
-            //aPen.Dispose();
-            //g.Dispose();
-        }
+        //    //AddData();
+        //    //SetPlotArea(g);
+        //    //cs.AddChartStyle(g);
+        //    //dc.AddLines(g, cs);
+        //    g.Dispose();
+        //}
 
         public void AddData()
         {
@@ -164,14 +170,14 @@ namespace Charts
         //    g.Dispose();
         //}
 
-        private PointF Point2D(PointF ptf)
-        {
-            PointF aPoint = new PointF();
-            aPoint.X = (ptf.X - xMin) * drawingPanel.Width / (xMax - xMin);
-            aPoint.Y = drawingPanel.Height - (ptf.Y - yMin) *
-            drawingPanel.Height / (yMax - yMin);
-            return aPoint;
-        }
+        //private PointF Point2D(PointF ptf)
+        //{
+        //    PointF aPoint = new PointF();
+        //    aPoint.X = (ptf.X - xMin) * drawingPanel.Width / (xMax - xMin);
+        //    aPoint.Y = drawingPanel.Height - (ptf.Y - yMin) *
+        //    drawingPanel.Height / (yMax - yMin);
+        //    return aPoint;
+        //}
 
         //private PointF Point2D(PointF ptf)
         //{
@@ -211,12 +217,23 @@ namespace Charts
         private void button1_Click_1(object sender, EventArgs e)
         {
             // Subscribing to a paint eventhandler to drawingPanel: 
-            drawingPanel.Paint += new PaintEventHandler(drawingPanelPaint);
-            drawingPanel.BorderStyle = BorderStyle.FixedSingle;
-            drawingPanel.Anchor = AnchorStyles.Bottom;
-            drawingPanel.Anchor = AnchorStyles.Left;
-            drawingPanel.Anchor = AnchorStyles.Right;
-            drawingPanel.Anchor = AnchorStyles.Top;
+            //drawingPanel.Paint += new PaintEventHandler(drawingPanelPaint);
+            //drawingPanel.BorderStyle = BorderStyle.FixedSingle;
+            //drawingPanel.Anchor = AnchorStyles.Bottom;
+            //drawingPanel.Anchor = AnchorStyles.Left;
+            //drawingPanel.Anchor = AnchorStyles.Right;
+            //drawingPanel.Anchor = AnchorStyles.Top;
+
+            Form form = new DynamicSettingsForm();
+            form.Show();
+            form.Location = new Point(788, 124);
+            form.Size = new Size(547, 333);
+        }
+
+        public Legend Legend
+        {
+            get { return lg; }
+            set { value = lg; }
         }
     }
 }
