@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Drawing; 
 using System.Drawing.Drawing2D; 
 using System.Collections;
+using Charts.Dynamic.Data;
 
 namespace Charts
 {
-    public class Legend
+    public class Legend : IDynamicData
     {
         private bool isLegendVisible;
         private Color textColor;

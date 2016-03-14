@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
 using System.Drawing.Drawing2D;
+using Charts.Dynamic.Data;
 
 namespace Charts
 {
-    public class ChartStyle
+    public class ChartStyle : IDynamicData
     {
         private ChartForm form1;
         private Rectangle chartArea;
@@ -33,8 +34,6 @@ namespace Charts
         private Color labelFontColor = Color.Black;
         private Font titleFont = new Font("Arial", 12, FontStyle.Regular);
         private Color titleFontColor = Color.Black;
-        private float xTick = 1f;
-        private float yTick = 0.5f;
         private Font tickFont;
         private Color tickFontColor = Color.Black;
 
@@ -58,6 +57,9 @@ namespace Charts
             dd.xLimMax = 10f;
             dd.yLimMin = 0f;
             dd.yLimMax = 10f;
+
+            dd.xTick = 1f;
+            dd.yTick = 0.5f;
         }
 
         public void AddChartStyle(Graphics g)
@@ -79,7 +81,7 @@ namespace Charts
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fX = dd.xLimMin + XTick; fX < dd.xLimMax; fX += XTick)
+                for (fX = dd.xLimMin + dd.xTick; fX < dd.xLimMax; fX += dd.xTick)
                 {
                     g.DrawLine(aPen, Point2D(new PointF(fX, dd.yLimMin)),
                     Point2D(new PointF(fX, dd.yLimMax)));
@@ -91,7 +93,7 @@ namespace Charts
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fY = dd.yLimMin + YTick; fY < dd.yLimMax; fY += YTick)
+                for (fY = dd.yLimMin + dd.yTick; fY < dd.yLimMax; fY += dd.yTick)
                 {
                     g.DrawLine(aPen, Point2D(new PointF(dd.xLimMin, fY)),
                     Point2D(new PointF(dd.xLimMax, fY)));
@@ -100,7 +102,7 @@ namespace Charts
 
             // Create the x-axis tick marks: 
             aBrush = new SolidBrush(TickFontColor);
-            for (fX = dd.xLimMin; fX <= dd.xLimMax; fX += XTick)
+            for (fX = dd.xLimMin; fX <= dd.xLimMax; fX += dd.xTick)
             {
                 PointF yAxisPoint = Point2D(new PointF(fX, dd.yLimMin));
                 g.DrawLine(Pens.Black, yAxisPoint,
@@ -115,7 +117,7 @@ namespace Charts
             }
 
             // Create the y-axis tick marks: 
-            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += YTick)
+            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += dd.yTick)
             {
                 PointF xAxisPoint = Point2D(new PointF(dd.xLimMin, fY));
                 g.DrawLine(Pens.Black, xAxisPoint,
@@ -320,17 +322,17 @@ namespace Charts
         //    set { dd.yLimMin = value; }
         //}
 
-        public float XTick
-        {
-            get { return xTick; }
-            set { xTick = value; }
-        }
+        //public float XTick
+        //{
+        //    get { return xTick; }
+        //    set { xTick = value; }
+        //}
 
-        public float YTick
-        {
-            get { return yTick; }
-            set { yTick = value; }
-        }
+        //public float YTick
+        //{
+        //    get { return yTick; }
+        //    set { yTick = value; }
+        //}
 
         virtual public DashStyle GridPattern
         {

@@ -57,6 +57,7 @@
     <Compile Include="Dynamic\Data\DynamicData.cs" />
     <Compile Include="Dynamic\Data\DynamicDataChartStyle.cs" />
     <Compile Include="Dynamic\Data\DynamicDataLegend.cs" />
+    <Compile Include="Dynamic\Data\IDynamicData.cs" />
     <Compile Include="Dynamic\Mapper\DynamicSettingsMapperChartStyle.cs" />
     <Compile Include="Dynamic\Mapper\DynamicSettingsMapperLegend.cs" />
     <Compile Include="DynamicSettingsForm.cs">

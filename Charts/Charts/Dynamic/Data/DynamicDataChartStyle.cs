@@ -14,5 +14,8 @@ namespace Charts
         public float xLimMax = 10f;
         public float yLimMin = 0f;
         public float yLimMax = 10f;
+
+        public float xTick = 1f;
+        public float yTick = 0.5f;
     }
 }
