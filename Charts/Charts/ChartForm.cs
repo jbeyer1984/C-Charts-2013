@@ -17,7 +17,7 @@ namespace Charts
         private DataCollection dc;
         private ChartStyle cs;
         private Legend lg;
-        private DynamicSettingsBox dynamicSettingsBox;
+        private DynamicSettingsMapper dynamicSettingsBox;
         //private Rectangle PlotArea;
         private int offset = 30;
 
@@ -39,23 +39,10 @@ namespace Charts
             lg = new Legend();
             lg.IsLegendVisible = true;
 
-            cs.XLimMin = 0f;
-            cs.XLimMax = 6f;
-            cs.YLimMin = -1.1f;
-            cs.YLimMax = 1.1f;
-            
-
-            // Subscribing to a paint eventhandler to drawingPanel: 
-            //drawingPanel.Paint += new PaintEventHandler(drawingPanelPaint);
-            //drawingPanel.BorderStyle = BorderStyle.FixedSingle;
-            //drawingPanel.Anchor = AnchorStyles.Bottom;
-            //drawingPanel.Anchor = AnchorStyles.Left;
-            //drawingPanel.Anchor = AnchorStyles.Right;
-            //drawingPanel.Anchor = AnchorStyles.Top;
-
-            //TestGetter testGetter = new TestGetter();
-            //testGetter.Test = 3;
-            //testGetter.print();
+            cs.dd.xLimMin = 0f;
+            cs.dd.xLimMax = 6f;
+            cs.dd.yLimMin = -1.1f;
+            cs.dd.yLimMax = 1.1f;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -71,33 +58,6 @@ namespace Charts
 
             g.Dispose();
         }
-
-        //private void drawingPanelPaint(object sender, PaintEventArgs e)
-        //{
-        //    drawingPanel.Left = offset;
-        //    drawingPanel.Top = offset;
-        //    //drawingPanel.Width = ClientRectangle.Width - 2 * offset;
-        //    //drawingPanel.Height = ClientRectangle.Height - 2 * offset;
-        //    drawingPanel.Width = 200;
-        //    drawingPanel.Height = 200;
-        //    //drawingPanel.Visible = true;
-
-        //    Graphics g = e.Graphics;
-
-        //    if (null == dynamicSettingsBox)
-        //    {
-        //        dynamicSettingsBox = new DynamicSettingsBox(drawingPanel, this);
-        //        dynamicSettingsBox.addDynamicSettingsBox(g);
-        //    }
-        //    //ChartStyle chartStyle = new ChartStyle(this);
-        //    //chartStyle.AddChartStyle(g);
-
-        //    //AddData();
-        //    //SetPlotArea(g);
-        //    //cs.AddChartStyle(g);
-        //    //dc.AddLines(g, cs);
-        //    g.Dispose();
-        //}
 
         public void AddData()
         {
@@ -137,57 +97,7 @@ namespace Charts
             int plotWidth = cs.ChartArea.Width - 2 * xOffset;
             int plotHeight = cs.ChartArea.Height - 2 * yOffset;
             cs.PlotArea = new Rectangle(plotX, plotY, plotWidth, plotHeight);
-        }
-
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    Graphics g = e.Graphics;
-            // Following codes draw a line from (0, 0) to (1, 1) in unit of inch: 
-            //g.PageUnit = GraphicsUnit.Inch;
-            //Pen blackPen = new Pen(Color.Black, 1 / g.DpiX);
-            //g.DrawLine(blackPen, 0, 0, 1, 1);
-
-            //paintGreenLineFromMiddle(g);
-
-            //paintRectArea(g);
-        //}
-
-        //private void paintRectArea(Graphics g)
-        //{
-        //    // Calculate the location and size of the drawing area 
-        //    // within which we want to draw the graphics: 
-        //    Rectangle rect = ClientRectangle;
-        //    PlotArea = new Rectangle(rect.Location, rect.Size);
-        //    PlotArea.Inflate(-offset, -offset);
-        //    //Draw ClientRectangle and PlotArea using Pen: 
-        //    g.DrawRectangle(Pens.Red, rect);
-        //    g.DrawRectangle(Pens.Black, PlotArea);
-        //    // Draw a line from point (3,2) to Point (6, 7) 
-        //    // using a Pen with a width of 3 pixels: 
-        //    Pen aPen = new Pen(Color.Green, 3);
-        //    g.DrawLine(aPen, Point2D(new PointF(3, 2)), Point2D(new PointF(6, 7)));
-        //    aPen.Dispose();
-        //    g.Dispose();
-        //}
-
-        //private PointF Point2D(PointF ptf)
-        //{
-        //    PointF aPoint = new PointF();
-        //    aPoint.X = (ptf.X - xMin) * drawingPanel.Width / (xMax - xMin);
-        //    aPoint.Y = drawingPanel.Height - (ptf.Y - yMin) *
-        //    drawingPanel.Height / (yMax - yMin);
-        //    return aPoint;
-        //}
-
-        //private PointF Point2D(PointF ptf)
-        //{
-        //    PointF aPoint = new PointF();
-        //    aPoint.X = PlotArea.X + (ptf.X - xMin) *
-        //    PlotArea.Width / (xMax - xMin);
-        //    aPoint.Y = PlotArea.Bottom - (ptf.Y - yMin) *
-        //    PlotArea.Height / (yMax - yMin);
-        //    return aPoint;
-        //} 
+        } 
  
         private void paintGreenLineFromMiddle(Graphics g)
         {
@@ -216,14 +126,6 @@ namespace Charts
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            // Subscribing to a paint eventhandler to drawingPanel: 
-            //drawingPanel.Paint += new PaintEventHandler(drawingPanelPaint);
-            //drawingPanel.BorderStyle = BorderStyle.FixedSingle;
-            //drawingPanel.Anchor = AnchorStyles.Bottom;
-            //drawingPanel.Anchor = AnchorStyles.Left;
-            //drawingPanel.Anchor = AnchorStyles.Right;
-            //drawingPanel.Anchor = AnchorStyles.Top;
-
             Form form = new DynamicSettingsForm();
             form.Show();
             form.Location = new Point(788, 124);
@@ -234,6 +136,12 @@ namespace Charts
         {
             get { return lg; }
             set { value = lg; }
+        }
+
+        public ChartStyle ChartStyle
+        {
+            get { return cs; }
+            set { value = cs; }
         }
     }
 }

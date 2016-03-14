@@ -36,10 +36,10 @@ namespace Charts
             legendBorderColor = Color.Black;
             legendFont = new Font("Arial", 8, FontStyle.Regular);
 
-            initDynamicFields();
+            initDynamicData();
         }
 
-        public void initDynamicFields() //@todo create interface for method
+        public void initDynamicData() //@todo create interface for method
         {
             dd = new DynamicDataLegend();
 

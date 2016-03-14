@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 
 namespace Charts
 {
@@ -18,10 +18,9 @@ namespace Charts
         private Color chartBorderColor;
         private Color plotBackColor = Color.White;
         private Color plotBorderColor = Color.Black;
-        private float xLimMin = 0f;
-        private float xLimMax = 10f;
-        private float yLimMin = 0f;
-        private float yLimMax = 10f;
+
+        public DynamicDataChartStyle dd;
+
         private DashStyle gridPattern = DashStyle.Solid;
         private Color gridColor = Color.LightGray;
         private float gridLineThickness = 1.0f;
@@ -47,6 +46,18 @@ namespace Charts
             chartBorderColor = fm1.BackColor;
             PlotArea = chartArea;
             tickFont = form1.Font;
+
+            initDynamicData();
+        }
+
+        public void initDynamicData()
+        {
+            dd = new DynamicDataChartStyle();
+
+            dd.xLimMin = 0f;
+            dd.xLimMax = 10f;
+            dd.yLimMin = 0f;
+            dd.yLimMax = 10f;
         }
 
         public void AddChartStyle(Graphics g)
@@ -68,10 +79,10 @@ namespace Charts
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fX = XLimMin + XTick; fX < XLimMax; fX += XTick)
+                for (fX = dd.xLimMin + XTick; fX < dd.xLimMax; fX += XTick)
                 {
-                    g.DrawLine(aPen, Point2D(new PointF(fX, YLimMin)),
-                    Point2D(new PointF(fX, YLimMax)));
+                    g.DrawLine(aPen, Point2D(new PointF(fX, dd.yLimMin)),
+                    Point2D(new PointF(fX, dd.yLimMax)));
                 }
             }
 
@@ -80,18 +91,18 @@ namespace Charts
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fY = YLimMin + YTick; fY < YLimMax; fY += YTick)
+                for (fY = dd.yLimMin + YTick; fY < dd.yLimMax; fY += YTick)
                 {
-                    g.DrawLine(aPen, Point2D(new PointF(XLimMin, fY)),
-                    Point2D(new PointF(XLimMax, fY)));
+                    g.DrawLine(aPen, Point2D(new PointF(dd.xLimMin, fY)),
+                    Point2D(new PointF(dd.xLimMax, fY)));
                 }
             }
 
             // Create the x-axis tick marks: 
             aBrush = new SolidBrush(TickFontColor);
-            for (fX = XLimMin; fX <= XLimMax; fX += XTick)
+            for (fX = dd.xLimMin; fX <= dd.xLimMax; fX += XTick)
             {
-                PointF yAxisPoint = Point2D(new PointF(fX, YLimMin));
+                PointF yAxisPoint = Point2D(new PointF(fX, dd.yLimMin));
                 g.DrawLine(Pens.Black, yAxisPoint,
                 new PointF(yAxisPoint.X, yAxisPoint.Y - 5f));
                 StringFormat sFormat = new StringFormat();
@@ -104,9 +115,9 @@ namespace Charts
             }
 
             // Create the y-axis tick marks: 
-            for (fY = YLimMin; fY <= YLimMax; fY += YTick)
+            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += YTick)
             {
-                PointF xAxisPoint = Point2D(new PointF(XLimMin, fY));
+                PointF xAxisPoint = Point2D(new PointF(dd.xLimMin, fY));
                 g.DrawLine(Pens.Black, xAxisPoint,
                 new PointF(xAxisPoint.X + 5f, xAxisPoint.Y));
                 StringFormat sFormat = new StringFormat();
@@ -163,16 +174,16 @@ namespace Charts
         public PointF Point2D(PointF pt)
         {
             PointF aPoint = new PointF();
-            if (pt.X < XLimMin || pt.X > XLimMax ||
-            pt.Y < YLimMin || pt.Y > YLimMax)
+            if (pt.X < dd.xLimMin || pt.X > dd.xLimMax ||
+            pt.Y < dd.yLimMin || pt.Y > dd.yLimMax)
             {
                 pt.X = Single.NaN;
                 pt.Y = Single.NaN;
             }
-            aPoint.X = PlotArea.X + (pt.X - XLimMin) *
-            PlotArea.Width / (XLimMax - XLimMin);
-            aPoint.Y = PlotArea.Bottom - (pt.Y - YLimMin) *
-            PlotArea.Height / (YLimMax - YLimMin);
+            aPoint.X = PlotArea.X + (pt.X - dd.xLimMin) *
+            PlotArea.Width / (dd.xLimMax - dd.xLimMin);
+            aPoint.Y = PlotArea.Bottom - (pt.Y - dd.yLimMin) *
+            PlotArea.Height / (dd.yLimMax - dd.yLimMin);
 
             return aPoint;
         }
@@ -285,29 +296,29 @@ namespace Charts
             set { titleFontColor = value; }
         }
 
-        public float XLimMax
+        public float xLimMax
         {
-            get { return xLimMax; }
-            set { xLimMax = value; }
+            get { return dd.xLimMax; }
+            set { dd.xLimMax = value; }
         }
 
-        public float XLimMin
-        {
-            get { return xLimMin; }
-            set { xLimMin = value; }
-        }
+        //public float xLimMin
+        //{
+        //    get { return dd.xLimMin; }
+        //    set { dd.xLimMin = value; }
+        //}
 
-        public float YLimMax
-        {
-            get { return yLimMax; }
-            set { yLimMax = value; }
-        }
+        //public float yLimMax
+        //{
+        //    get { return dd.yLimMax; }
+        //    set { dd.yLimMax = value; }
+        //}
 
-        public float YLimMin
-        {
-            get { return yLimMin; }
-            set { yLimMin = value; }
-        }
+        //public float yLimMin
+        //{
+        //    get { return dd.yLimMin; }
+        //    set { dd.yLimMin = value; }
+        //}
 
         public float XTick
         {
