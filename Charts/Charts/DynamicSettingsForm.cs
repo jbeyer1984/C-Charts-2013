@@ -83,9 +83,11 @@ namespace Charts
                 this.addPanel(panelChartStyle);
                 this.addPanel(panelLegend);
 
-                ChartForm chartForm = (ChartForm)Application.OpenForms["ChartForm"];
-                DynamicSettingsMapper dynamicSettingsMapper = new DynamicSettingsMapperChartStyle(panelChartStyle, chartForm);
-                DynamicSettingsMapper dynamicSettingsMapper2 = new DynamicSettingsMapperLegend(panelLegend, chartForm);
+                Form chartForm = (Form) Application.OpenForms["ChartForm"];
+                ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
+
+                DynamicSettingsMapper dynamicSettingsMapper = new DynamicSettingsMapperChartStyle(panelChartStyle, panelToUpdate);
+                DynamicSettingsMapper dynamicSettingsMapper2 = new DynamicSettingsMapperLegend(panelLegend, panelToUpdate);
                 dynamicSettingsMapper.addDynamicSettingsBox(g);
                 dynamicSettingsMapper2.addDynamicSettingsBox(g);
 

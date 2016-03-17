@@ -10,14 +10,14 @@ namespace Charts
 {
     class DynamicSettingsMapperChartStyle : DynamicSettingsMapper
     {
-        public DynamicSettingsMapperChartStyle(Panel panel, ChartForm form)
-            : base(panel, form)
+        public DynamicSettingsMapperChartStyle(Panel panel, ChartPanel panelToUpdate)
+            : base(panel, panelToUpdate)
         {
         }
 
         public override void mapDynamicData()
         {
-            dynamicData = FormToUpdate.ChartStyle.dd;
+            dynamicData = PanelToUpdate.ChartStyle.dd;
         }
 
         public override String getDynamicSettingsJSONString()
@@ -30,9 +30,9 @@ namespace Charts
             try
             {
                 base.dynamicData = ((DynamicDataChartStyle) base.dynamicData).FromJSON(TBox.Text);
-                ChartStyle chartStyle = FormToUpdate.ChartStyle;
+                ChartStyle chartStyle = PanelToUpdate.ChartStyle;
                 chartStyle.dd = (DynamicDataChartStyle) base.dynamicData;
-                FormToUpdate.Refresh();
+                PanelToUpdate.Refresh();
 
             }
             catch (System.Runtime.Serialization.SerializationException ex)

@@ -76,6 +76,9 @@
     <Compile Include="Chart\Legend.cs" />
     <Compile Include="Dynamic\Mapper\IDynamicSettingsMapper.cs" />
     <Compile Include="LineStyle.cs" />
+    <Compile Include="Panel\ChartPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">

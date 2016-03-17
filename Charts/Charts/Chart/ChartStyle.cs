@@ -7,12 +7,13 @@ using System.Drawing;
 using System.Collections;
 using System.Drawing.Drawing2D;
 using Charts.Dynamic.Data;
+using wForms = System.Windows.Forms;
 
 namespace Charts
 {
     public class ChartStyle : IDynamicData
     {
-        private ChartForm form1;
+        private wForms.Panel panel;
         private Rectangle chartArea;
         private Rectangle plotArea;
         private Color chartBackColor;
@@ -37,14 +38,14 @@ namespace Charts
         private Font tickFont;
         private Color tickFontColor = Color.Black;
 
-        public ChartStyle(ChartForm fm1)
+        public ChartStyle(wForms.Panel panel)
         {
-            form1 = fm1;
-            chartArea = form1.ClientRectangle;
-            chartBackColor = fm1.BackColor;
-            chartBorderColor = fm1.BackColor;
+            this.panel = panel;
+            chartArea = panel.ClientRectangle;
+            chartBackColor = panel.BackColor;
+            chartBorderColor = panel.BackColor;
             PlotArea = chartArea;
-            tickFont = form1.Font;
+            tickFont = panel.Font;
 
             initDynamicData();
         }

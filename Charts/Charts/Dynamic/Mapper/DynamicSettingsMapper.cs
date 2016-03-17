@@ -16,7 +16,7 @@ namespace Charts
 {
     class DynamicSettingsMapper : IDynamicSettingsMapper
     {
-        protected ChartForm formToUpdate;
+        protected ChartPanel panelToUpdate;
         private Panel parentPanel;
         private TextBox tBox;
         private Label label;
@@ -30,9 +30,9 @@ namespace Charts
             initPanel(panel);
         }
 
-        public DynamicSettingsMapper(Panel panel, ChartForm formToUpdate)
+        public DynamicSettingsMapper(Panel panel, ChartPanel panelToUpdate)
         {
-            this.formToUpdate = formToUpdate;
+            this.panelToUpdate = panelToUpdate;
             initPanel(panel);
         }
 
@@ -50,7 +50,7 @@ namespace Charts
 
         public virtual void mapDynamicData()
         {
-            this.dynamicData = formToUpdate.Legend.dd;
+            this.dynamicData = panelToUpdate.Legend.dd;
         }
 
         private void initLabel()
@@ -97,10 +97,10 @@ namespace Charts
 
         public virtual void updateChangedDynamicData(object sender, EventArgs e) {}
 
-        public ChartForm FormToUpdate
+        public ChartPanel PanelToUpdate
         {
-            get { return formToUpdate; }
-            set { value = formToUpdate; }
+            get { return panelToUpdate; }
+            set { value = panelToUpdate; }
         }
 
         public TextBox TBox

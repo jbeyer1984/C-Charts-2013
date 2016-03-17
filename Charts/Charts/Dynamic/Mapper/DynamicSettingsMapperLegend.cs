@@ -10,14 +10,14 @@ namespace Charts
 {
     class DynamicSettingsMapperLegend : DynamicSettingsMapper
     {
-        public DynamicSettingsMapperLegend(Panel panel, ChartForm form)
-            : base(panel, form)
+        public DynamicSettingsMapperLegend(Panel panel, ChartPanel panelToUpdate)
+            : base(panel, panelToUpdate)
         {
         }
 
         public override void mapDynamicData()
         {
-            dynamicData = FormToUpdate.Legend.dd;
+            dynamicData = PanelToUpdate.Legend.dd;
         }
 
         public override String getDynamicSettingsJSONString()
@@ -30,9 +30,9 @@ namespace Charts
             try
             {
                 base.dynamicData = ((DynamicDataLegend) base.dynamicData).FromJSON(TBox.Text);
-                Legend legend = FormToUpdate.Legend;
+                Legend legend = PanelToUpdate.Legend;
                 legend.dd = (DynamicDataLegend) base.dynamicData;
-                FormToUpdate.Refresh();
+                PanelToUpdate.Refresh();
 
             }
             catch
