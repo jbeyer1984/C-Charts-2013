@@ -50,6 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chart\BarStyle.cs" />
     <Compile Include="Chart\ChartStyle.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Chart\DataCollection.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Dynamic\Data\DynamicData.cs" />
     <Compile Include="Dynamic\Data\DynamicDataChartStyle.cs" />
     <Compile Include="Dynamic\Data\DynamicDataLegend.cs" />
+    <Compile Include="Dynamic\Data\DynamicDataPlot.cs" />
     <Compile Include="Dynamic\Data\IDynamicData.cs" />
     <Compile Include="Dynamic\Mapper\DynamicSettingsMapperChartStyle.cs" />
     <Compile Include="Dynamic\Mapper\DynamicSettingsMapperLegend.cs" />

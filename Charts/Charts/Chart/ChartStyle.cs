@@ -7,13 +7,13 @@ using System.Drawing;
 using System.Collections;
 using System.Drawing.Drawing2D;
 using Charts.Dynamic.Data;
-using wForms = System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace Charts
 {
     public class ChartStyle : IDynamicData
     {
-        private wForms.Panel panel;
+        private Panel panel;
         private Rectangle chartArea;
         private Rectangle plotArea;
         private Color chartBackColor;
@@ -21,7 +21,10 @@ namespace Charts
         private Color plotBackColor = Color.White;
         private Color plotBorderColor = Color.Black;
 
+        private StyleEnum styleType = StyleEnum.Bar;
+
         public DynamicDataChartStyle dd;
+        public DynamicDataPlot ddp;
 
         private DashStyle gridPattern = DashStyle.Solid;
         private Color gridColor = Color.LightGray;
@@ -38,7 +41,7 @@ namespace Charts
         private Font tickFont;
         private Color tickFontColor = Color.Black;
 
-        public ChartStyle(wForms.Panel panel)
+        public ChartStyle(Panel panel)
         {
             this.panel = panel;
             chartArea = panel.ClientRectangle;
@@ -59,11 +62,16 @@ namespace Charts
             dd.yLimMin = 0f;
             dd.yLimMax = 10f;
 
-            dd.xTick = 1f;
-            dd.yTick = 0.5f;
+            dd.test = 4f;
+
+            //ddp = new DynamicDataPlot();
+
+            dd.xTickOffset = 0.5f;
+            //dd.xTick = 1f;
+            //dd.yTick = 0.5f;
         }
 
-        public void AddChartStyle(Graphics g)
+        public void AddChartPlot(Graphics g)
         {
             // Draw ChartArea and PlotArea: 
             Pen aPen = new Pen(ChartBorderColor, 1f);
@@ -76,13 +84,20 @@ namespace Charts
             g.DrawRectangle(aPen, PlotArea);
             SizeF tickFontSize = g.MeasureString("A", TickFont);
 
+            float xStartPoint = 0;
+
+            if (styleType == StyleEnum.Bar)
+            {
+                xStartPoint = dd.xTickOffset + dd.xLimMin + dd.xTick / 2;
+            }
+
             // Create vertical gridlines: 
             float fX, fY;
             if (IsYGrid == true)
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fX = dd.xLimMin + dd.xTick; fX < dd.xLimMax; fX += dd.xTick)
+                for (fX = xStartPoint; fX < dd.xLimMax; fX += dd.xTick)
                 {
                     g.DrawLine(aPen, Point2D(new PointF(fX, dd.yLimMin)),
                     Point2D(new PointF(fX, dd.yLimMax)));
@@ -103,18 +118,24 @@ namespace Charts
 
             // Create the x-axis tick marks: 
             aBrush = new SolidBrush(TickFontColor);
-            for (fX = dd.xLimMin; fX <= dd.xLimMax; fX += dd.xTick)
+            for (fX = xStartPoint; fX <= dd.xLimMax; fX += dd.xTick)
             {
                 PointF yAxisPoint = Point2D(new PointF(fX, dd.yLimMin));
-                g.DrawLine(Pens.Black, yAxisPoint,
-                new PointF(yAxisPoint.X, yAxisPoint.Y - 5f));
+                g.DrawLine(
+                    Pens.Black, yAxisPoint,
+                    new PointF(yAxisPoint.X, yAxisPoint.Y - 4f)
+                );
                 StringFormat sFormat = new StringFormat();
                 sFormat.Alignment = StringAlignment.Far;
-                SizeF sizeXTick = g.MeasureString(fX.ToString(),
-                TickFont);
-                g.DrawString(fX.ToString(), TickFont, aBrush,
-                new PointF(yAxisPoint.X + sizeXTick.Width / 2,
-                yAxisPoint.Y + 4f), sFormat);
+                SizeF sizeXTick = g.MeasureString(fX.ToString(), TickFont);
+                g.DrawString(
+                    fX.ToString(), TickFont, aBrush,
+                    new PointF(
+                        yAxisPoint.X + sizeXTick.Width / 2,
+                        yAxisPoint.Y + 4f
+                    ),
+                    sFormat
+                );
             }
 
             // Create the y-axis tick marks: 
@@ -351,6 +372,18 @@ namespace Charts
         {
             get { return gridColor; }
             set { gridColor = value; }
+        }
+
+        public StyleEnum StyleType
+        {
+            get { return styleType; }
+            set { value = styleType; }
+        }
+
+        public enum StyleEnum
+        {
+            Normal = 0,
+            Bar = 1
         }
     }
 }

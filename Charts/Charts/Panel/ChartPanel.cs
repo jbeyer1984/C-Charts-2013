@@ -54,8 +54,11 @@ namespace Charts
 
             cs.dd.xLimMin = 0f;
             cs.dd.xLimMax = 6f;
-            cs.dd.yLimMin = -1.1f;
-            cs.dd.yLimMax = 1.1f;
+            //cs.dd.yLimMin = -1.1f;
+            cs.dd.yLimMin = 0f;
+            //cs.dd.yLimMax = 1.1f;
+            cs.dd.yLimMax = 5f;
+
         }
 
         private void PlotPanelPaint(object sender, PaintEventArgs e)
@@ -67,10 +70,12 @@ namespace Charts
 
             cs.ChartArea = this.ClientRectangle;
 
-            AddData();
-            SetPlotArea(g);
-            cs.AddChartStyle(g);
-            dc.AddLines(g, cs);
+            //addData();
+            this.addDataTestBar();
+            this.setPlotArea(g);
+            cs.AddChartPlot(g);
+            //dc.AddLines(g, cs);
+            dc.addBars(g, cs, 1, 4);
             lg.AddLegend(g, dc, cs);
 
             g.Dispose();
@@ -79,7 +84,7 @@ namespace Charts
             //dc.AddBars(g, cs, dc.DataSeriesList.Count, ds.PointList.Count);
         }
 
-        private void SetPlotArea(Graphics g)
+        private void setPlotArea(Graphics g)
         {
             // Set PlotArea: 
             int xOffset = cs.ChartArea.Width / 10;
@@ -92,7 +97,7 @@ namespace Charts
             cs.PlotArea = new Rectangle(plotX, plotY, plotWidth, plotHeight);
         }
 
-        public void AddData()
+        public void addData()
         {
             dc.DataSeriesList.Clear();
             // Add Sine data with 20 data points: 
@@ -105,7 +110,7 @@ namespace Charts
                 ds1.AddPoint(new PointF(i / 5.0f,
                 (float)Math.Sin(i / 5.0f)));
             }
-            dc.Add(ds1);
+            dc.add(ds1);
             // Add Cosine data with 40 data points: 
             DataSeries ds2 = new DataSeries();
             ds2.LineStyle.LineColor = Color.Blue;
@@ -116,7 +121,26 @@ namespace Charts
                 ds2.AddPoint(new PointF(i / 5.0f,
                 (float)Math.Cos(i / 5.0f)));
             }
-            dc.Add(ds2);
+            dc.add(ds2);
+        }
+
+        public void addDataTestBar()
+        {
+            float x, y;
+            // Add data series: 
+            dc.DataSeriesList.Clear();
+            DataSeries ds = new DataSeries();
+            ds = new DataSeries();
+            ds.BarStyle.BorderColor = Color.Red;
+            ds.BarStyle.FillColor = Color.Green;
+            ds.BarStyle.BarWidth = 0.6f;
+            for (int i = 0; i < 5; i++)
+            {
+                x = i + 1;
+                y = 1.0f * x;
+                ds.AddPoint(new PointF(x, y));
+            }
+            dc.add(ds);
         }
 
         public Legend Legend

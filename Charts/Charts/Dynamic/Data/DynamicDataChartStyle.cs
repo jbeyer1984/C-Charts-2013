@@ -15,7 +15,10 @@ namespace Charts
         public float yLimMin = 0f;
         public float yLimMax = 10f;
 
+        public float xTickOffset;
         public float xTick = 1f;
         public float yTick = 0.5f;
+
+        public float test = 0;
     }
 }
