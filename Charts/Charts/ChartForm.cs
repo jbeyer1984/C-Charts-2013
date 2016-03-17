@@ -48,6 +48,8 @@ namespace Charts
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
             cs.ChartArea = this.ClientRectangle;
 
             AddData();
