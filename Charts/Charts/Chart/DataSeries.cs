@@ -15,8 +15,11 @@ namespace Charts
         private LineStyle lineStyle;
         private string seriesName = "Default Name";
 
+        private BarStyle barStyle;
+
         public DataSeries()
         {
+            barStyle = new BarStyle();
             lineStyle = new LineStyle();
             pointList = new ArrayList();
         }
@@ -42,6 +45,12 @@ namespace Charts
         public void AddPoint(PointF pt)
         {
             pointList.Add(pt);
+        }
+
+        public BarStyle BarStyle
+        {
+            get { return barStyle; }
+            set { value = barStyle; }
         }
     }
 }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Drawing; 
 using System.Drawing.Drawing2D; 
 using System.Collections;
+using Charts.Dynamic.Data;
 
 namespace Charts
 {
-    public class Legend
+    public class Legend : IDynamicData
     {
         private bool isLegendVisible;
         private Color textColor;
@@ -36,10 +37,10 @@ namespace Charts
             legendBorderColor = Color.Black;
             legendFont = new Font("Arial", 8, FontStyle.Regular);
 
-            initDynamicFields();
+            initDynamicData();
         }
 
-        public void initDynamicFields() //@todo create interface for method
+        public void initDynamicData() //@todo create interface for method
         {
             dd = new DynamicDataLegend();
 

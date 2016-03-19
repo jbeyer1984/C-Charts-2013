@@ -12,7 +12,17 @@ namespace Charts
 {
     public partial class DynamicSettingsForm : Form
     {
-        private DynamicSettingsBox dynamicSettingsBox;
+        public static int numOfInstance = 0;
+
+        private int divisorHorizontal;
+        private int divisorVertical;
+        private int posX;
+        private int posY;
+        private int gridWidth;
+        private int gridHeight;
+
+        //private DynamicSettingsBox dynamicSetting
+        private bool dynamicSettingsMapperPainted = false;
 
         public DynamicSettingsForm()
         {
@@ -20,7 +30,17 @@ namespace Charts
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             this.BackColor = Color.White;
 
-            this.addPanel();
+            this.initPanelPaintAlignment();
+        }
+
+        private void initPanelPaintAlignment()
+        {
+            divisorHorizontal = 3;
+            divisorVertical = 2;
+            posX = 0;
+            posY = 0;
+            gridWidth = ClientRectangle.Width / divisorHorizontal;
+            gridHeight = ClientRectangle.Height / divisorVertical;
         }
 
         private void DynamicSettings_Load(object sender, EventArgs e)
@@ -28,30 +48,50 @@ namespace Charts
 
         }
 
-        private void addPanel()
+        private void addPanel(Panel panel)
         {
-            Panel panel = new Panel();
-            panel.Name = "LegendPanel";
             this.Controls.Add(panel);
             panel.Show();
 
-            panel.Location = new Point(0, 0);
-            panel.Size = new Size(200, 200);
+            this.calculateVerticalAlignmentForPanel();
+            panel.Location = new Point(posX, posY);
+            panel.Size = new Size(gridWidth, gridHeight);
 
+            DynamicSettingsForm.numOfInstance++;
+        }
 
+        private void calculateVerticalAlignmentForPanel()
+        {
+            posX = gridWidth * (DynamicSettingsForm.numOfInstance % divisorHorizontal);
 
+            if (ClientRectangle.Width == gridWidth * (DynamicSettingsForm.numOfInstance + 1))
+            {
+                posY = gridHeight + 1;
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
-            if (null == dynamicSettingsBox)
+            if (!dynamicSettingsMapperPainted)
             {
-                Panel panel = (Panel)this.Controls["LegendPanel"];
-                ChartForm chartForm = (ChartForm)Application.OpenForms["ChartForm"];
-                dynamicSettingsBox = new DynamicSettingsBoxLegend(panel, chartForm);
-                dynamicSettingsBox.addDynamicSettingsBox(g);
+                Panel panelChartStyle = new Panel();
+                panelChartStyle.Text = "ChartStyle";
+                Panel panelLegend = new Panel();
+                panelLegend.Text = "Legend";
+                this.addPanel(panelChartStyle);
+                this.addPanel(panelLegend);
+
+                Form chartForm = (Form) Application.OpenForms["ChartForm"];
+                ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
+
+                DynamicSettingsMapper dynamicSettingsMapper = new DynamicSettingsMapperChartStyle(panelChartStyle, panelToUpdate);
+                DynamicSettingsMapper dynamicSettingsMapper2 = new DynamicSettingsMapperLegend(panelLegend, panelToUpdate);
+                dynamicSettingsMapper.addDynamicSettingsBox(g);
+                dynamicSettingsMapper2.addDynamicSettingsBox(g);
+
+                dynamicSettingsMapperPainted = true;
             }
 
             g.Dispose();
@@ -61,32 +101,5 @@ namespace Charts
         {
 
         }
-
-        //private void drawingPanelPaint(object sender, PaintEventArgs e)
-        //{
-        //    drawingPanel.Left = offset;
-        //    drawingPanel.Top = offset;
-        //    //drawingPanel.Width = ClientRectangle.Width - 2 * offset;
-        //    //drawingPanel.Height = ClientRectangle.Height - 2 * offset;
-        //    drawingPanel.Width = 200;
-        //    drawingPanel.Height = 200;
-        //    //drawingPanel.Visible = true;
-
-        //    Graphics g = e.Graphics;
-
-        //    if (null == dynamicSettingsBox)
-        //    {
-        //        dynamicSettingsBox = new DynamicSettingsBox(drawingPanel, this);
-        //        dynamicSettingsBox.addDynamicSettingsBox(g);
-        //    }
-        //    //ChartStyle chartStyle = new ChartStyle(this);
-        //    //chartStyle.AddChartStyle(g);
-
-        //    //AddData();
-        //    //SetPlotArea(g);
-        //    //cs.AddChartStyle(g);
-        //    //dc.AddLines(g, cs);
-        //    g.Dispose();
-        //}
     }
 }

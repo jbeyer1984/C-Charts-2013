@@ -5,23 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
+using Charts.Dynamic.Data;
+using System.Windows.Forms;
 
 namespace Charts
 {
-    public class ChartStyle
+    public class ChartStyle : IDynamicData
     {
-        private ChartForm form1;
+        private Panel panel;
         private Rectangle chartArea;
         private Rectangle plotArea;
         private Color chartBackColor;
         private Color chartBorderColor;
         private Color plotBackColor = Color.White;
         private Color plotBorderColor = Color.Black;
-        private float xLimMin = 0f;
-        private float xLimMax = 10f;
-        private float yLimMin = 0f;
-        private float yLimMax = 10f;
+
+        private StyleEnum styleType = StyleEnum.Bar;
+
+        public DynamicDataChartStyle dd;
+        public DynamicDataPlot ddp;
+
         private DashStyle gridPattern = DashStyle.Solid;
         private Color gridColor = Color.LightGray;
         private float gridLineThickness = 1.0f;
@@ -34,22 +38,40 @@ namespace Charts
         private Color labelFontColor = Color.Black;
         private Font titleFont = new Font("Arial", 12, FontStyle.Regular);
         private Color titleFontColor = Color.Black;
-        private float xTick = 1f;
-        private float yTick = 0.5f;
         private Font tickFont;
         private Color tickFontColor = Color.Black;
 
-        public ChartStyle(ChartForm fm1)
+        public ChartStyle(Panel panel)
         {
-            form1 = fm1;
-            chartArea = form1.ClientRectangle;
-            chartBackColor = fm1.BackColor;
-            chartBorderColor = fm1.BackColor;
+            this.panel = panel;
+            chartArea = panel.ClientRectangle;
+            chartBackColor = panel.BackColor;
+            chartBorderColor = panel.BackColor;
             PlotArea = chartArea;
-            tickFont = form1.Font;
+            tickFont = panel.Font;
+
+            initDynamicData();
         }
 
-        public void AddChartStyle(Graphics g)
+        public void initDynamicData()
+        {
+            dd = new DynamicDataChartStyle();
+
+            dd.xLimMin = 0f;
+            dd.xLimMax = 10f;
+            dd.yLimMin = 0f;
+            dd.yLimMax = 10f;
+
+            dd.test = 4f;
+
+            //ddp = new DynamicDataPlot();
+
+            dd.xTickOffset = 0.5f;
+            //dd.xTick = 1f;
+            //dd.yTick = 0.5f;
+        }
+
+        public void AddChartPlot(Graphics g)
         {
             // Draw ChartArea and PlotArea: 
             Pen aPen = new Pen(ChartBorderColor, 1f);
@@ -62,16 +84,23 @@ namespace Charts
             g.DrawRectangle(aPen, PlotArea);
             SizeF tickFontSize = g.MeasureString("A", TickFont);
 
+            float xStartPoint = 0;
+
+            if (styleType == StyleEnum.Bar)
+            {
+                xStartPoint = dd.xTickOffset + dd.xLimMin + dd.xTick / 2;
+            }
+
             // Create vertical gridlines: 
             float fX, fY;
             if (IsYGrid == true)
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fX = XLimMin + XTick; fX < XLimMax; fX += XTick)
+                for (fX = xStartPoint; fX < dd.xLimMax; fX += dd.xTick)
                 {
-                    g.DrawLine(aPen, Point2D(new PointF(fX, YLimMin)),
-                    Point2D(new PointF(fX, YLimMax)));
+                    g.DrawLine(aPen, Point2D(new PointF(fX, dd.yLimMin)),
+                    Point2D(new PointF(fX, dd.yLimMax)));
                 }
             }
 
@@ -80,33 +109,39 @@ namespace Charts
             {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fY = YLimMin + YTick; fY < YLimMax; fY += YTick)
+                for (fY = dd.yLimMin + dd.yTick; fY < dd.yLimMax; fY += dd.yTick)
                 {
-                    g.DrawLine(aPen, Point2D(new PointF(XLimMin, fY)),
-                    Point2D(new PointF(XLimMax, fY)));
+                    g.DrawLine(aPen, Point2D(new PointF(dd.xLimMin, fY)),
+                    Point2D(new PointF(dd.xLimMax, fY)));
                 }
             }
 
             // Create the x-axis tick marks: 
             aBrush = new SolidBrush(TickFontColor);
-            for (fX = XLimMin; fX <= XLimMax; fX += XTick)
+            for (fX = xStartPoint; fX <= dd.xLimMax; fX += dd.xTick)
             {
-                PointF yAxisPoint = Point2D(new PointF(fX, YLimMin));
-                g.DrawLine(Pens.Black, yAxisPoint,
-                new PointF(yAxisPoint.X, yAxisPoint.Y - 5f));
+                PointF yAxisPoint = Point2D(new PointF(fX, dd.yLimMin));
+                g.DrawLine(
+                    Pens.Black, yAxisPoint,
+                    new PointF(yAxisPoint.X, yAxisPoint.Y - 4f)
+                );
                 StringFormat sFormat = new StringFormat();
                 sFormat.Alignment = StringAlignment.Far;
-                SizeF sizeXTick = g.MeasureString(fX.ToString(),
-                TickFont);
-                g.DrawString(fX.ToString(), TickFont, aBrush,
-                new PointF(yAxisPoint.X + sizeXTick.Width / 2,
-                yAxisPoint.Y + 4f), sFormat);
+                SizeF sizeXTick = g.MeasureString(fX.ToString(), TickFont);
+                g.DrawString(
+                    fX.ToString(), TickFont, aBrush,
+                    new PointF(
+                        yAxisPoint.X + sizeXTick.Width / 2,
+                        yAxisPoint.Y + 4f
+                    ),
+                    sFormat
+                );
             }
 
             // Create the y-axis tick marks: 
-            for (fY = YLimMin; fY <= YLimMax; fY += YTick)
+            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += dd.yTick)
             {
-                PointF xAxisPoint = Point2D(new PointF(XLimMin, fY));
+                PointF xAxisPoint = Point2D(new PointF(dd.xLimMin, fY));
                 g.DrawLine(Pens.Black, xAxisPoint,
                 new PointF(xAxisPoint.X + 5f, xAxisPoint.Y));
                 StringFormat sFormat = new StringFormat();
@@ -163,16 +198,16 @@ namespace Charts
         public PointF Point2D(PointF pt)
         {
             PointF aPoint = new PointF();
-            if (pt.X < XLimMin || pt.X > XLimMax ||
-            pt.Y < YLimMin || pt.Y > YLimMax)
+            if (pt.X < dd.xLimMin || pt.X > dd.xLimMax ||
+            pt.Y < dd.yLimMin || pt.Y > dd.yLimMax)
             {
                 pt.X = Single.NaN;
                 pt.Y = Single.NaN;
             }
-            aPoint.X = PlotArea.X + (pt.X - XLimMin) *
-            PlotArea.Width / (XLimMax - XLimMin);
-            aPoint.Y = PlotArea.Bottom - (pt.Y - YLimMin) *
-            PlotArea.Height / (YLimMax - YLimMin);
+            aPoint.X = PlotArea.X + (pt.X - dd.xLimMin) *
+            PlotArea.Width / (dd.xLimMax - dd.xLimMin);
+            aPoint.Y = PlotArea.Bottom - (pt.Y - dd.yLimMin) *
+            PlotArea.Height / (dd.yLimMax - dd.yLimMin);
 
             return aPoint;
         }
@@ -285,41 +320,41 @@ namespace Charts
             set { titleFontColor = value; }
         }
 
-        public float XLimMax
+        public float xLimMax
         {
-            get { return xLimMax; }
-            set { xLimMax = value; }
+            get { return dd.xLimMax; }
+            set { dd.xLimMax = value; }
         }
 
-        public float XLimMin
-        {
-            get { return xLimMin; }
-            set { xLimMin = value; }
-        }
+        //public float xLimMin
+        //{
+        //    get { return dd.xLimMin; }
+        //    set { dd.xLimMin = value; }
+        //}
 
-        public float YLimMax
-        {
-            get { return yLimMax; }
-            set { yLimMax = value; }
-        }
+        //public float yLimMax
+        //{
+        //    get { return dd.yLimMax; }
+        //    set { dd.yLimMax = value; }
+        //}
 
-        public float YLimMin
-        {
-            get { return yLimMin; }
-            set { yLimMin = value; }
-        }
+        //public float yLimMin
+        //{
+        //    get { return dd.yLimMin; }
+        //    set { dd.yLimMin = value; }
+        //}
 
-        public float XTick
-        {
-            get { return xTick; }
-            set { xTick = value; }
-        }
+        //public float XTick
+        //{
+        //    get { return xTick; }
+        //    set { xTick = value; }
+        //}
 
-        public float YTick
-        {
-            get { return yTick; }
-            set { yTick = value; }
-        }
+        //public float YTick
+        //{
+        //    get { return yTick; }
+        //    set { yTick = value; }
+        //}
 
         virtual public DashStyle GridPattern
         {
@@ -337,6 +372,18 @@ namespace Charts
         {
             get { return gridColor; }
             set { gridColor = value; }
+        }
+
+        public StyleEnum StyleType
+        {
+            get { return styleType; }
+            set { value = styleType; }
+        }
+
+        public enum StyleEnum
+        {
+            Normal = 0,
+            Bar = 1
         }
     }
 }
