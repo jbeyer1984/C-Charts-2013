@@ -69,10 +69,10 @@ namespace Charts
             // Plot lines: 
             foreach (DataSeries ds in DataSeriesList)
             {
-                if (ds.LineStyle.IsVisible == true)
+                if (ds.dd.lineStyle.IsVisible == true)
                 {
-                    Pen aPen = new Pen(ds.LineStyle.LineColor,
-                     ds.LineStyle.Thickness); aPen.DashStyle = ds.LineStyle.Pattern;
+                    Pen aPen = new Pen(ds.dd.lineStyle.LineColor,
+                     ds.dd.lineStyle.Thickness); aPen.DashStyle = ds.dd.lineStyle.Pattern;
                     for (int i = 1; i < ds.PointList.Count; i++)
                     {
                         g.DrawLine(aPen,
@@ -98,7 +98,7 @@ namespace Charts
                 PointF pt;
                 float width;
 
-                if (cs.StyleType == ChartStyle.StyleEnum.Bar)
+                if (cs.dd.styleType == DynamicDataChartStyle.StyleEnum.Bar)
                 {
                     if (numberOfDataSeries == 1)
                     {
@@ -107,7 +107,7 @@ namespace Charts
                         {
                             pt = (PointF)ds.PointList[i];
                             float x = cs.dd.xTickOffset + pt.X - cs.dd.xTick / 2;
-                            Console.WriteLine(" pos{0} : {1}", i, pt.X);
+                            //Console.WriteLine(" pos{0} : {1}", i, pt.X);
                             pts[0] = cs.Point2D(new PointF(x - width / 2, 0));
                             pts[1] = cs.Point2D(new PointF(x + width / 2, 0));
                             pts[2] = cs.Point2D(new PointF(x + width / 2, pt.Y));

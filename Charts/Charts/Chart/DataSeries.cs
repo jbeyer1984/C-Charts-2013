@@ -12,23 +12,26 @@ namespace Charts
     public class DataSeries
     {
         private ArrayList pointList;
-        private LineStyle lineStyle;
+        //private LineStyle lineStyle;
         private string seriesName = "Default Name";
+
+        public DynamicDataSeries dd;
 
         private BarStyle barStyle;
 
         public DataSeries()
         {
             barStyle = new BarStyle();
-            lineStyle = new LineStyle();
+            dd = new DynamicDataSeries();
+            dd.lineStyle = new LineStyle();
             pointList = new ArrayList();
         }
 
-        public LineStyle LineStyle
-        {
-            get { return lineStyle; }
-            set { lineStyle = value; }
-        }
+        //public LineStyle LineStyle
+        //{
+        //    get { return lineStyle; }
+        //    set { lineStyle = value; }
+        //}
 
         public string SeriesName
         {

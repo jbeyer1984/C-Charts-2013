@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace Charts
 {
@@ -20,5 +21,16 @@ namespace Charts
         public float yTick = 0.5f;
 
         public float test = 0;
+
+        public StyleEnum styleType = StyleEnum.Bar;
+
+        [DataContract]
+        public enum StyleEnum
+        {
+            [EnumMember(Value = "Normal")]
+            Normal = 0,
+            [EnumMember(Value = "Bar")]
+            Bar = 1
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Charts
             divisorVertical = 2;
             posX = 0;
             posY = 0;
-            gridWidth = ClientRectangle.Width / divisorHorizontal;
+            gridWidth = (ClientRectangle.Width - 50) / divisorHorizontal;
             gridHeight = ClientRectangle.Height / divisorVertical;
         }
 
@@ -56,18 +56,18 @@ namespace Charts
             this.calculateVerticalAlignmentForPanel();
             panel.Location = new Point(posX, posY);
             panel.Size = new Size(gridWidth, gridHeight);
-
-            DynamicSettingsForm.numOfInstance++;
         }
 
         private void calculateVerticalAlignmentForPanel()
         {
-            posX = gridWidth * (DynamicSettingsForm.numOfInstance % divisorHorizontal);
-
-            if (ClientRectangle.Width == gridWidth * (DynamicSettingsForm.numOfInstance + 1))
+            if ((posX) == (gridWidth * (divisorHorizontal-1)))
             {
                 posY = gridHeight + 1;
             }
+
+            posX = gridWidth * (DynamicSettingsForm.numOfInstance % divisorHorizontal);
+
+            DynamicSettingsForm.numOfInstance++;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -80,16 +80,38 @@ namespace Charts
                 panelChartStyle.Text = "ChartStyle";
                 Panel panelLegend = new Panel();
                 panelLegend.Text = "Legend";
+                Panel panelSeries = new Panel();
+                panelSeries.Text = "Series1";
+                //Panel panelStyles = new Panel();
+                //panelStyles.Text = "LineStyles";
                 this.addPanel(panelChartStyle);
                 this.addPanel(panelLegend);
+                this.addPanel(panelSeries);
+                //this.addPanel(panelStyles);
 
                 Form chartForm = (Form) Application.OpenForms["ChartForm"];
                 ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
 
-                DynamicSettingsMapper dynamicSettingsMapper = new DynamicSettingsMapperChartStyle(panelChartStyle, panelToUpdate);
-                DynamicSettingsMapper dynamicSettingsMapper2 = new DynamicSettingsMapperLegend(panelLegend, panelToUpdate);
+                DynamicMapper dynamicSettingsMapper = new DynamicMapperChartStyle(panelChartStyle, panelToUpdate);
+                DynamicMapper dynamicSettingsMapper2 = new DynamicMapperLegend(panelLegend, panelToUpdate);
+                DynamicMapper dynamicSettingsMapper3 = new DynamicMapperSeries(
+                    panelSeries,
+                    panelToUpdate,
+                    "ds1"
+                );
                 dynamicSettingsMapper.addDynamicSettingsBox(g);
                 dynamicSettingsMapper2.addDynamicSettingsBox(g);
+                //dynamicSettingsMapper3.addDynamicSettingsBox(g);
+
+                DynamicDataSeries dyns = new DynamicDataSeries();
+                MapperViewTest mpt = new MapperViewTest();
+                DynamicMapperTest dmt = new DynamicMapperTest(
+                    ((Panel) panelToUpdate),
+                    panelToUpdate.dynamicDataList["ds1"],
+                    mpt
+                );
+                dmt.bind(panelSeries);
+                
 
                 dynamicSettingsMapperPainted = true;
             }

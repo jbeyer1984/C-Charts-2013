@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -56,19 +59,22 @@
     <Compile Include="Chart\DataCollection.cs" />
     <Compile Include="Chart\DataSeries.cs" />
     <Compile Include="Dynamic\Data\DynamicData.cs" />
+    <Compile Include="Dynamic\Data\DynamicDataSeries.cs" />
     <Compile Include="Dynamic\Data\DynamicDataChartStyle.cs" />
     <Compile Include="Dynamic\Data\DynamicDataLegend.cs" />
     <Compile Include="Dynamic\Data\DynamicDataPlot.cs" />
     <Compile Include="Dynamic\Data\IDynamicData.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicSettingsMapperChartStyle.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicSettingsMapperLegend.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapperTest.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapperSeries.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapperChartStyle.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapperLegend.cs" />
     <Compile Include="DynamicSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DynamicSettingsForm.Designer.cs">
       <DependentUpon>DynamicSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dynamic\Mapper\DynamicSettingsMapper.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapper.cs" />
     <Compile Include="ChartForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,9 +82,18 @@
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Chart\Legend.cs" />
-    <Compile Include="Dynamic\Mapper\IDynamicSettingsMapper.cs" />
+    <Compile Include="Dynamic\Mapper\IDynamicMapper.cs" />
+    <Compile Include="Dynamic\View\IMapperView.cs" />
+    <Compile Include="Dynamic\View\MapperView.cs" />
+    <Compile Include="Dynamic\View\MapperViewTest.cs" />
     <Compile Include="LineStyle.cs" />
     <Compile Include="Panel\ChartPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\LineStyleColorBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\LineStylePatternBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

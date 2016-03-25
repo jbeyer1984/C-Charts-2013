@@ -14,10 +14,13 @@ namespace Charts
     {
         private ChartForm chartParent;
         private DataCollection dc;
+        private DataCollection dc2;
         private ChartStyle cs;
         private Legend lg;
         private int offsetPanelX = 10;
         private int offsetPanelY = 30;
+
+        public Dictionary<String, DynamicData> dynamicDataList = new Dictionary<string,DynamicData>();
 
         public ChartPanel(ChartForm chartParent)
         {
@@ -47,6 +50,7 @@ namespace Charts
         private void initDataToPlot()
         {
             dc = new DataCollection();
+            dc2 = new DataCollection();
             cs = new ChartStyle(this);
             //cs.ChartArea = this.ClientRectangle;
             lg = new Legend();
@@ -68,14 +72,19 @@ namespace Charts
 
             this.updateSize();
 
-            cs.ChartArea = this.ClientRectangle;
+            //cs.ChartArea = this.ClientRectangle;
 
-            //addData();
-            this.addDataTestBar();
+            // add lines to dc
+            addData();
             this.setPlotArea(g);
             cs.AddChartPlot(g);
-            //dc.AddLines(g, cs);
-            dc.addBars(g, cs, 1, 4);
+            dc.AddLines(g, cs);
+
+            // add barst to dc2
+            this.addDataTestBar(dc2);
+            //this.setPlotArea(g);
+            //cs.AddChartPlot(g);
+            dc2.addBars(g, cs, 1, 4);
             lg.AddLegend(g, dc, cs);
 
             g.Dispose();
@@ -102,36 +111,49 @@ namespace Charts
             dc.DataSeriesList.Clear();
             // Add Sine data with 20 data points: 
             DataSeries ds1 = new DataSeries();
-            ds1.LineStyle.LineColor = Color.Red;
-            ds1.LineStyle.Thickness = 2f;
-            ds1.LineStyle.Pattern = DashStyle.Dash;
+            if (!dynamicDataList.ContainsKey("ds1"))
+            {
+                ds1.dd.lineStyle.LineColor = Color.Red;
+                ds1.dd.lineStyle.Thickness = 2f;
+                ds1.dd.lineStyle.Pattern = DashStyle.Dash;
+                dynamicDataList.Add("ds1", ds1.dd);
+            } else {
+                ds1.dd = (DynamicDataSeries) dynamicDataList["ds1"];
+            }
+            //ds1.dd.lineStyle.LineColor = Color.Red;
+            //ds1.dd.lineStyle.Thickness = 2f;
+            //ds1.dd.lineStyle.Pattern = DashStyle.Dash;
+            
             for (int i = 0; i < 20; i++)
             {
-                ds1.AddPoint(new PointF(i / 5.0f,
-                (float)Math.Sin(i / 5.0f)));
+                //ds1.AddPoint(new PointF(i / 5.0f,
+                //(float)Math.Sin(i / 5.0f)));
+                ds1.AddPoint(new PointF(i, 4));
             }
             dc.add(ds1);
             // Add Cosine data with 40 data points: 
-            DataSeries ds2 = new DataSeries();
-            ds2.LineStyle.LineColor = Color.Blue;
-            ds2.LineStyle.Thickness = 1f;
-            ds2.LineStyle.Pattern = DashStyle.Solid;
-            for (int i = 0; i < 40; i++)
-            {
-                ds2.AddPoint(new PointF(i / 5.0f,
-                (float)Math.Cos(i / 5.0f)));
-            }
-            dc.add(ds2);
+            //DataSeries ds2 = new DataSeries();
+            //ds2.LineStyle.LineColor = Color.Blue;
+            //ds2.LineStyle.Thickness = 1f;
+            //ds2.LineStyle.Pattern = DashStyle.Solid;
+            //for (int i = 0; i < 40; i++)
+            //{
+            //    ds2.AddPoint(new PointF(i / 5.0f,
+            //    (float)Math.Cos(i / 5.0f)));
+            //}
+            //dc.add(ds2);
         }
 
-        public void addDataTestBar()
+        public void addDataTestBar(DataCollection dc)
         {
             float x, y;
             // Add data series: 
             dc.DataSeriesList.Clear();
             DataSeries ds = new DataSeries();
             ds = new DataSeries();
-            ds.BarStyle.BorderColor = Color.Red;
+            //ds.BarStyle.BorderColor = Color.Red;
+            //ds.BarStyle.BorderColor = Color.Green;
+            ds.BarStyle.BorderColor = Color.Transparent;
             ds.BarStyle.FillColor = Color.Green;
             ds.BarStyle.BarWidth = 0.6f;
             for (int i = 0; i < 5; i++)

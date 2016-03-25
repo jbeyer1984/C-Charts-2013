@@ -46,7 +46,7 @@
             this.AccessibleName = "ChartForm";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 399);
+            this.ClientSize = new System.Drawing.Size(800, 399);
             this.Controls.Add(this.button1);
             this.Name = "ChartForm";
             this.Text = "Form1";
