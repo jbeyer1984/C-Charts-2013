@@ -153,8 +153,8 @@ namespace Charts
                     float xText = legendRectangle.X + 2 * dd.spacing + dd.lineLength; 
                     float yText = legendRectangle.Y + n * dd.spacing + 
                          (2 * n - 1) * dd.htextHeight; 
-                    aPen = new Pen(ds.LineStyle.LineColor, ds.LineStyle.Thickness);
-                    aPen.DashStyle = ds.LineStyle.Pattern;
+                    aPen = new Pen(ds.dd.lineStyle.LineColor, ds.dd.lineStyle.Thickness);
+                    aPen.DashStyle = ds.dd.lineStyle.Pattern;
                     PointF ptStart = new PointF(legendRectangle.X + dd.spacing, yText);
                     PointF ptEnd = new PointF(legendRectangle.X + dd.spacing + dd.lineLength, yText); 
                     g.DrawLine(aPen, ptStart, ptEnd); 

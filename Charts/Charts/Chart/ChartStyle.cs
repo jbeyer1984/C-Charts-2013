@@ -21,7 +21,7 @@ namespace Charts
         private Color plotBackColor = Color.White;
         private Color plotBorderColor = Color.Black;
 
-        private StyleEnum styleType = StyleEnum.Bar;
+        //private StyleEnum styleType = StyleEnum.Bar;
 
         public DynamicDataChartStyle dd;
         public DynamicDataPlot ddp;
@@ -86,7 +86,7 @@ namespace Charts
 
             float xStartPoint = 0;
 
-            if (styleType == StyleEnum.Bar)
+            if (dd.styleType == DynamicDataChartStyle.StyleEnum.Bar)
             {
                 xStartPoint = dd.xTickOffset + dd.xLimMin + dd.xTick / 2;
             }
@@ -374,16 +374,16 @@ namespace Charts
             set { gridColor = value; }
         }
 
-        public StyleEnum StyleType
-        {
-            get { return styleType; }
-            set { value = styleType; }
-        }
+        //public StyleEnum StyleType
+        //{
+        //    get { return styleType; }
+        //    set { value = styleType; }
+        //}
 
-        public enum StyleEnum
-        {
-            Normal = 0,
-            Bar = 1
-        }
+        //public enum StyleEnum
+        //{
+        //    Normal = 0,
+        //    Bar = 1
+        //}
     }
 }

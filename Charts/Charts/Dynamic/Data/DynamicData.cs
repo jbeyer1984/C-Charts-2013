@@ -6,12 +6,31 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Reflection;
 
 namespace Charts
 {
-    [Serializable()]
-    public class DynamicData
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Property)]
+    abstract public class DynamicData : Attribute
     {
+        //private PropertyInfo _property;
+
+        // The Property of the targeted class
+        // that’s being validated
+        //public PropertyInfo Property
+        //{
+        //    get { return _property; }
+        //    set { _property = value; }
+        //}
+
+        //public string PropertyName
+        //{
+        //    get
+        //    {
+        //        return _property.Name;
+        //    }
+        //}
     }
 
     public static class ExtensionMethodsClass

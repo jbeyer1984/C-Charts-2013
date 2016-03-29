@@ -21,7 +21,6 @@ namespace Charts
         private int gridWidth;
         private int gridHeight;
 
-        //private DynamicSettingsBox dynamicSetting
         private bool dynamicSettingsMapperPainted = false;
 
         public DynamicSettingsForm()
@@ -39,7 +38,7 @@ namespace Charts
             divisorVertical = 2;
             posX = 0;
             posY = 0;
-            gridWidth = ClientRectangle.Width / divisorHorizontal;
+            gridWidth = (ClientRectangle.Width - 40) / divisorHorizontal;
             gridHeight = ClientRectangle.Height / divisorVertical;
         }
 
@@ -53,21 +52,22 @@ namespace Charts
             this.Controls.Add(panel);
             panel.Show();
 
-            this.calculateVerticalAlignmentForPanel();
+            this.calculateAlignmentForPanel();
             panel.Location = new Point(posX, posY);
             panel.Size = new Size(gridWidth, gridHeight);
-
-            DynamicSettingsForm.numOfInstance++;
+            Console.WriteLine("dynamic Form gridWidth: {0}", gridWidth);
         }
 
-        private void calculateVerticalAlignmentForPanel()
+        private void calculateAlignmentForPanel()
         {
+            if ((posX) == (gridWidth * (divisorHorizontal-1)))
+            {
+                posY += gridHeight;
+            }
+
             posX = gridWidth * (DynamicSettingsForm.numOfInstance % divisorHorizontal);
 
-            if (ClientRectangle.Width == gridWidth * (DynamicSettingsForm.numOfInstance + 1))
-            {
-                posY = gridHeight + 1;
-            }
+            DynamicSettingsForm.numOfInstance++;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -76,20 +76,49 @@ namespace Charts
 
             if (!dynamicSettingsMapperPainted)
             {
+                Form chartForm = (Form) Application.OpenForms["ChartForm"];
+                ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
+
                 Panel panelChartStyle = new Panel();
                 panelChartStyle.Text = "ChartStyle";
                 Panel panelLegend = new Panel();
                 panelLegend.Text = "Legend";
+
                 this.addPanel(panelChartStyle);
                 this.addPanel(panelLegend);
 
-                Form chartForm = (Form) Application.OpenForms["ChartForm"];
-                ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
+                MapperViewWithLabel mapperViewWitLabel = new MapperViewWithLabel();
+                DynamicMapperBinds dynamicMapperBinds = new DynamicMapperBinds(
+                    ((Panel)panelToUpdate),
+                    panelToUpdate.ChartStyle.dd,
+                    mapperViewWitLabel
+                );
+                dynamicMapperBinds.bind(panelChartStyle);
 
-                DynamicSettingsMapper dynamicSettingsMapper = new DynamicSettingsMapperChartStyle(panelChartStyle, panelToUpdate);
-                DynamicSettingsMapper dynamicSettingsMapper2 = new DynamicSettingsMapperLegend(panelLegend, panelToUpdate);
-                dynamicSettingsMapper.addDynamicSettingsBox(g);
-                dynamicSettingsMapper2.addDynamicSettingsBox(g);
+                mapperViewWitLabel = new MapperViewWithLabel();
+                dynamicMapperBinds = new DynamicMapperBinds(
+                    ((Panel)panelToUpdate),
+                    panelToUpdate.Legend.dd,
+                    mapperViewWitLabel
+                );
+                dynamicMapperBinds.bind(panelLegend);
+
+                // init series
+                int length = panelToUpdate.dynamicDataSeriesList.Count;
+                foreach (string seriesName in panelToUpdate.dynamicDataSeriesList.Keys)
+                {
+                    Panel panelSeries = new Panel();
+                    panelSeries.Text = seriesName;
+                    this.addPanel(panelSeries);
+
+                    mapperViewWitLabel = new MapperViewWithLabel();
+                    dynamicMapperBinds = new DynamicMapperBinds(
+                        ((Panel)panelToUpdate),
+                        panelToUpdate.dynamicDataSeriesList[seriesName],
+                        mapperViewWitLabel
+                    );
+                    dynamicMapperBinds.bind(panelSeries);
+                }
 
                 dynamicSettingsMapperPainted = true;
             }
