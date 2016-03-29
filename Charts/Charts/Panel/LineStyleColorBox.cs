@@ -11,19 +11,20 @@ using System.Reflection;
 
 namespace Charts
 {
-    public class LineStyleColorBox : ComboBox
+    public class ColorBox : ComboBox
     {
 		private List<string> names = new List<string>();
 
-        public LineStyleColorBox()
+        public ColorBox()
 		{
 			this.DrawMode = DrawMode.OwnerDrawFixed;
-			this.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.DropDownStyle = ComboBoxStyle.DropDownList;
 
             foreach (PropertyInfo prop in typeof(Color).GetProperties())
             {
                 if (prop.PropertyType.FullName == "System.Drawing.Color")
                 {
+                    //Console.WriteLine("color box item: {0}", prop.Name);
                     names.Add(prop.Name);
                     //this.Items.Add(prop.Name);
                 }

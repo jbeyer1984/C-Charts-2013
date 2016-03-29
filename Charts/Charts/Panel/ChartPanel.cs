@@ -20,12 +20,12 @@ namespace Charts
         private int offsetPanelX = 10;
         private int offsetPanelY = 30;
 
-        public Dictionary<String, DynamicData> dynamicDataList = new Dictionary<string,DynamicData>();
+        public Dictionary<String, DynamicData> dynamicDataSeriesList = new Dictionary<string, DynamicData>();
 
         public ChartPanel(ChartForm chartParent)
         {
             this.chartParent = chartParent;
-            //this.SetStyle(ControlStyles.ResizeRedraw, true);
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
             ResizeRedraw = true;
             initPanel();
             initDataToPlot();
@@ -45,6 +45,9 @@ namespace Charts
         {
             this.Width = chartParent.Size.Width - offsetPanelX;
             this.Height = chartParent.Size.Height - 2 * offsetPanelY;
+            if (null != cs) {
+                cs.ChartArea = this.ClientRectangle;
+            }
         }
 
         private void initDataToPlot()
@@ -70,12 +73,15 @@ namespace Charts
             Graphics g = e.Graphics;
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            this.updateSize();
+            //this.updateSize();
 
             //cs.ChartArea = this.ClientRectangle;
+            Console.WriteLine("paint now");
+
+            DataCollection.seriesCounter = 0;
 
             // add lines to dc
-            addData();
+            this.addData();
             this.setPlotArea(g);
             cs.AddChartPlot(g);
             dc.AddLines(g, cs);
@@ -111,15 +117,7 @@ namespace Charts
             dc.DataSeriesList.Clear();
             // Add Sine data with 20 data points: 
             DataSeries ds1 = new DataSeries();
-            if (!dynamicDataList.ContainsKey("ds1"))
-            {
-                ds1.dd.lineStyle.LineColor = Color.Red;
-                ds1.dd.lineStyle.Thickness = 2f;
-                ds1.dd.lineStyle.Pattern = DashStyle.Dash;
-                dynamicDataList.Add("ds1", ds1.dd);
-            } else {
-                ds1.dd = (DynamicDataSeries) dynamicDataList["ds1"];
-            }
+            
             //ds1.dd.lineStyle.LineColor = Color.Red;
             //ds1.dd.lineStyle.Thickness = 2f;
             //ds1.dd.lineStyle.Pattern = DashStyle.Dash;
@@ -131,6 +129,15 @@ namespace Charts
                 ds1.AddPoint(new PointF(i, 4));
             }
             dc.add(ds1);
+            if (!dynamicDataSeriesList.ContainsKey(ds1.SeriesName)) {
+                Console.WriteLine(ds1.SeriesName);
+                ds1.dd.lineStyle.LineColor = Color.Red;
+                ds1.dd.lineStyle.Thickness = 2f;
+                ds1.dd.lineStyle.Pattern = DashStyle.Dash;
+                dynamicDataSeriesList.Add(ds1.SeriesName, ds1.dd);
+            } else {
+                ds1.dd = (DynamicDataSeries) dynamicDataSeriesList[ds1.SeriesName];
+            }
             // Add Cosine data with 40 data points: 
             //DataSeries ds2 = new DataSeries();
             //ds2.LineStyle.LineColor = Color.Blue;
@@ -148,14 +155,12 @@ namespace Charts
         {
             float x, y;
             // Add data series: 
-            dc.DataSeriesList.Clear();
+            //dc.DataSeriesList.Clear();
             DataSeries ds = new DataSeries();
             ds = new DataSeries();
             //ds.BarStyle.BorderColor = Color.Red;
             //ds.BarStyle.BorderColor = Color.Green;
-            ds.BarStyle.BorderColor = Color.Transparent;
-            ds.BarStyle.FillColor = Color.Green;
-            ds.BarStyle.BarWidth = 0.6f;
+            
             for (int i = 0; i < 5; i++)
             {
                 x = i + 1;
@@ -163,6 +168,20 @@ namespace Charts
                 ds.AddPoint(new PointF(x, y));
             }
             dc.add(ds);
+
+            if (!dynamicDataSeriesList.ContainsKey(ds.SeriesName))
+            {
+                Console.WriteLine(ds.SeriesName);
+                ds.BarStyle.dd.BorderColor = Color.Transparent;
+                ds.BarStyle.dd.FillColor = Color.Green;
+                ds.BarStyle.dd.BarWidth = 0.6f;
+                dynamicDataSeriesList.Add(ds.SeriesName, ds.BarStyle.dd);
+            }
+            else
+            {
+                ds.BarStyle.dd = (DynamicDataBar) dynamicDataSeriesList[ds.SeriesName];
+            }
+
         }
 
         public Legend Legend

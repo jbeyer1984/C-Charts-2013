@@ -13,6 +13,9 @@ namespace Charts
     {
         private ArrayList dataSeriesList;
         private int dataSeriesIndex = 0;
+
+        public static int seriesCounter = 0;
+
         public DataCollection()
         {
             dataSeriesList = new ArrayList();
@@ -32,8 +35,10 @@ namespace Charts
             dataSeriesList.Add(ds);
             if (ds.SeriesName == "Default Name")
             {
-                ds.SeriesName = "DataSeries" +
-                dataSeriesList.Count.ToString();
+                ds.SeriesName = "DataSeries" + DataCollection.seriesCounter;
+                DataCollection.seriesCounter++;
+
+                //dataSeriesList.Count.ToString();
             }
         }
         public void insert(int dataSeriesIndex, DataSeries ds)
@@ -90,10 +95,10 @@ namespace Charts
             int n = 0;
             foreach (DataSeries ds in DataSeriesList)
             {
-                Pen aPen = new Pen(ds.BarStyle.BorderColor,
-                ds.BarStyle.BorderThickness);
-                SolidBrush aBrush = new SolidBrush(ds.BarStyle.FillColor);
-                aPen.DashStyle = ds.BarStyle.BorderPattern;
+                Pen aPen = new Pen(ds.BarStyle.dd.BorderColor,
+                ds.BarStyle.dd.BorderThickness);
+                SolidBrush aBrush = new SolidBrush(ds.BarStyle.dd.FillColor);
+                aPen.DashStyle = ds.BarStyle.dd.BorderPattern;
                 PointF[] pts = new PointF[4];
                 PointF pt;
                 float width;
@@ -102,7 +107,7 @@ namespace Charts
                 {
                     if (numberOfDataSeries == 1)
                     {
-                        width = cs.dd.xTick * ds.BarStyle.BarWidth;
+                        width = cs.dd.xTick * ds.BarStyle.dd.BarWidth;
                         for (int i = 0; i < ds.PointList.Count; i++)
                         {
                             pt = (PointF)ds.PointList[i];
@@ -124,7 +129,7 @@ namespace Charts
                             pt = (PointF)ds.PointList[i];
                             Console.WriteLine(" pos{0} : {1}", i, pt.X);
                             float w1 = width / numberOfDataSeries;
-                            float w = ds.BarStyle.BarWidth * w1;
+                            float w = ds.BarStyle.dd.BarWidth * w1;
                             float space = (w1 - w) / 2;
                             float x = pt.X - cs.dd.xTick / 2;
                             pts[0] = cs.Point2D(new PointF(x - width / 2 + space + n * w1, 0));

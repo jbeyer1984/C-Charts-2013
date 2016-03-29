@@ -10,14 +10,12 @@ using System.Windows.Forms;
 
 namespace Charts
 {
-    class MapperViewTest : MapperView
+    class MapperViewWithLabel : MapperView
     {
-        //public Panel rootPanel;
-
         private Label label;
         private int labelHeight;
 
-        public MapperViewTest()
+        public MapperViewWithLabel()
         {
 
         }
@@ -29,18 +27,12 @@ namespace Charts
 
         protected virtual void initPanel()
         {
-
-            //this.parentPanel = parentPanel;
-
-            //this.mapDynamicData();
-
             this.initLabel();
-            //initTextBox();
         }
 
         protected void initLabel()
         {
-            labelHeight = 15;
+            labelHeight = 25;
             int labelWidth = RootPanel.ClientRectangle.Width;
 
             label = new Label();
@@ -52,27 +44,10 @@ namespace Charts
             this.addControl(label);
         }
 
-        //private void initTextBox()
-        //{
-        //    tBox = new TextBox();
-        //    tBox.Width = rootPanel.ClientRectangle.Width;
-        //    tBox.Height = rootPanel.ClientRectangle.Height - labelHeight;
-        //    tBox.Multiline = true;
-        //    tBox.Top = labelHeight;
-
-        //    tBox.TextChanged += new System.EventHandler(updateChangedDynamicData);
-        //}
-
         public Label Label
         {
             get { return label; }
             set { label = value; }
         }
-
-        //public Panel RootPanel
-        //{
-        //    get { return rootPanel; }
-        //    set { value = rootPanel; }
-        //}
     }
 }

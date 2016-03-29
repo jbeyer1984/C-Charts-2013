@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Charts
 {
-    [Serializable()]
+    [Serializable]
     [AttributeUsage(AttributeTargets.Property)]
     abstract public class DynamicData : Attribute
     {

@@ -1,6 +1,7 @@
 ﻿using Charts.Dynamic.View;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,19 @@ namespace Charts
 
         public void addControl(Control control)
         {
+            Console.WriteLine("mapper view width of control: {0}", control.Width);
+            int width = rootPanel.Width / 2;
+
+            Label label = new Label();
+            label.Text = control.Name;
+            label.TextAlign = ContentAlignment.MiddleLeft;
+            label.Top = nextOffset;
+            label.Width = width;
+            rootPanel.Controls.Add(label);
+
+            control.Left = width;
             control.Top = nextOffset;
+            control.Width = width;
             rootPanel.Controls.Add(control);
             this.addOffset(control);
         }

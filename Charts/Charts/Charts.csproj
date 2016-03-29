@@ -59,15 +59,13 @@
     <Compile Include="Chart\DataCollection.cs" />
     <Compile Include="Chart\DataSeries.cs" />
     <Compile Include="Dynamic\Data\DynamicData.cs" />
+    <Compile Include="Dynamic\Data\DynamicDataBar.cs" />
     <Compile Include="Dynamic\Data\DynamicDataSeries.cs" />
     <Compile Include="Dynamic\Data\DynamicDataChartStyle.cs" />
     <Compile Include="Dynamic\Data\DynamicDataLegend.cs" />
     <Compile Include="Dynamic\Data\DynamicDataPlot.cs" />
     <Compile Include="Dynamic\Data\IDynamicData.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicMapperTest.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicMapperSeries.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicMapperChartStyle.cs" />
-    <Compile Include="Dynamic\Mapper\DynamicMapperLegend.cs" />
+    <Compile Include="Dynamic\Mapper\DynamicMapperBinds.cs" />
     <Compile Include="DynamicSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,15 +80,17 @@
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Chart\Legend.cs" />
-    <Compile Include="Dynamic\Mapper\IDynamicMapper.cs" />
     <Compile Include="Dynamic\View\IMapperView.cs" />
     <Compile Include="Dynamic\View\MapperView.cs" />
-    <Compile Include="Dynamic\View\MapperViewTest.cs" />
+    <Compile Include="Dynamic\View\MapperViewWithLabel.cs" />
     <Compile Include="LineStyle.cs" />
     <Compile Include="Panel\ChartPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panel\LineStyleColorBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\LineStyleThicknessBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panel\LineStylePatternBox.cs">
