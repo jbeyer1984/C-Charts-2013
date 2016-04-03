@@ -1,12 +1,10 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
+﻿using System.Drawing;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Charts
 {
-    class DynamicMapperBinds : DynamicMapper
+    internal class DynamicMapperBinds : DynamicMapper
     {
         //private Panel panelToBind;
 
@@ -26,11 +24,10 @@ namespace Charts
 
             PropertyInfo[] propertyInfos;
             propertyInfos = DynamicData.GetType().GetProperties();
-            
+
             foreach (PropertyInfo property in propertyInfos) {
                 //Console.WriteLine("property is {0}", property.Name);
-                if (property.PropertyType == typeof(LineStyle))
-                {
+                if (property.PropertyType == typeof(LineStyle)) {
                     this.bindLineStyle(property);
 
                     //property.SetValue(dynamicData, Convert.ChangeType(lineStyle, property.PropertyType), null);

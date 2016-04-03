@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing; 
-using System.Drawing.Drawing2D; 
-using System.Collections;
-using Charts.Dynamic.Data;
+﻿using Charts.Dynamic.Data;
+using System;
+using System.Drawing;
 
 namespace Charts
 {
@@ -23,7 +17,7 @@ namespace Charts
 
         private Boolean isLegendsAdded = false;
 
-        public DynamicDataLegend dd; 
+        public DynamicDataLegend dd;
         //public float spacing;
         //public float textHeight;
         //public float htextHeight;
@@ -54,128 +48,135 @@ namespace Charts
             dd.hlineLength = dd.lineLength / 2.0f;
         }
 
-        public void AddLegend(Graphics g, DataCollection dc, ChartStyle cs) 
-        { 
-            if (dc.DataSeriesList.Count < 1) { 
-                return; 
+        public void AddLegend(Graphics g, DataCollection dc, ChartStyle cs)
+        {
+            if (dc.DataSeriesList.Count < 1) {
+                return;
             }
 
-            if (!IsLegendVisible) { 
-                return; 
+            if (!IsLegendVisible) {
+                return;
             }
- 
-            int numberOfDataSeries = dc.DataSeriesList.Count; 
+
+            int numberOfDataSeries = dc.DataSeriesList.Count;
 
             if (!isLegendsAdded) {
                 legendLabels = new string[dc.DataSeriesList.Count];
                 int n = 0;
-                foreach (DataSeries ds in dc.DataSeriesList) { 
-                    legendLabels[n] = ds.SeriesName; 
+                foreach (DataSeries ds in dc.DataSeriesList) {
+                    legendLabels[n] = ds.SeriesName;
                     n++;
                 }
                 isLegendsAdded = true;
             }
- 
-            float offSet = 10; 
-            float xc = 0f; 
-            float yc = 0f; 
-            SizeF size = g.MeasureString(legendLabels[0], LegendFont); 
-            float legendWidth = size.Width; 
-            for (int i = 0; i < legendLabels.Length; i++) { 
-                size = g.MeasureString(legendLabels[i], LegendFont); 
-                float tempWidth = size.Width; 
-                if (legendWidth < tempWidth) 
-                legendWidth = tempWidth; 
+
+            float offSet = 10;
+            float xc = 0f;
+            float yc = 0f;
+            SizeF size = g.MeasureString(legendLabels[0], LegendFont);
+            float legendWidth = size.Width;
+            for (int i = 0; i < legendLabels.Length; i++) {
+                size = g.MeasureString(legendLabels[i], LegendFont);
+                float tempWidth = size.Width;
+                if (legendWidth < tempWidth)
+                    legendWidth = tempWidth;
             }
- 
-            legendWidth = legendWidth + 50.0f; 
-            float hWidth = legendWidth / 2; 
-            float legendHeight = 18.0f * numberOfDataSeries; 
-            float hHeight = legendHeight / 2; 
-            switch (LegendPosition) { 
-                case LegendPositionEnum.East: 
-                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth; 
-                    yc = cs.PlotArea.Y + cs.PlotArea.Height / 2; 
-                    break; 
-                case LegendPositionEnum.North: 
+
+            legendWidth = legendWidth + 50.0f;
+            float hWidth = legendWidth / 2;
+            float legendHeight = 18.0f * numberOfDataSeries;
+            float hHeight = legendHeight / 2;
+            switch (LegendPosition) {
+                case LegendPositionEnum.East:
+                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth;
+                    yc = cs.PlotArea.Y + cs.PlotArea.Height / 2;
+                    break;
+
+                case LegendPositionEnum.North:
                     xc = cs.PlotArea.X + cs.PlotArea.Width / 2;
-                    yc = cs.PlotArea.Y + offSet + hHeight; 
-                    break; 
-                case LegendPositionEnum.NorthEast: 
-                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth; 
-                    yc = cs.PlotArea.Y + offSet + hHeight; 
-                    break; 
-                case LegendPositionEnum.NorthWest: 
-                    xc = cs.PlotArea.X + offSet + hWidth; 
-                    yc = cs.PlotArea.Y + offSet + hHeight; 
-                    break; 
-                case LegendPositionEnum.South: 
+                    yc = cs.PlotArea.Y + offSet + hHeight;
+                    break;
+
+                case LegendPositionEnum.NorthEast:
+                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth;
+                    yc = cs.PlotArea.Y + offSet + hHeight;
+                    break;
+
+                case LegendPositionEnum.NorthWest:
+                    xc = cs.PlotArea.X + offSet + hWidth;
+                    yc = cs.PlotArea.Y + offSet + hHeight;
+                    break;
+
+                case LegendPositionEnum.South:
                     xc = cs.PlotArea.X + cs.PlotArea.Width / 2;
-                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight; 
-                    break; 
-                case LegendPositionEnum.SouthEast: 
-                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth; 
-                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight; 
-                    break; 
-                case LegendPositionEnum.SouthWest: 
-                    xc = cs.PlotArea.X + offSet + hWidth; 
-                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight; 
-                    break; 
-                case LegendPositionEnum.West: 
-                    xc = cs.PlotArea.X + offSet + hWidth; 
-                    yc = cs.PlotArea.Y + cs.PlotArea.Height / 2; 
-                    break; 
+                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight;
+                    break;
+
+                case LegendPositionEnum.SouthEast:
+                    xc = cs.PlotArea.X + cs.PlotArea.Width - offSet - hWidth;
+                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight;
+                    break;
+
+                case LegendPositionEnum.SouthWest:
+                    xc = cs.PlotArea.X + offSet + hWidth;
+                    yc = cs.PlotArea.Y + cs.PlotArea.Height - offSet - hHeight;
+                    break;
+
+                case LegendPositionEnum.West:
+                    xc = cs.PlotArea.X + offSet + hWidth;
+                    yc = cs.PlotArea.Y + cs.PlotArea.Height / 2;
+                    break;
             }
- 
-            DrawLegend(g, xc, yc, hWidth, hHeight, dc, cs); 
+
+            DrawLegend(g, xc, yc, hWidth, hHeight, dc, cs);
         }
 
-        private void DrawLegend(Graphics g, float xCenter, 
-           float yCenter, float hWidth, float hHeight, 
-           DataCollection dc, ChartStyle cs) 
-        { 
-            //float spacing = 8.0f; 
-            //float textHeight = 8.0f; 
-            //float htextHeight = textHeight / 2.0f; 
-            //float lineLength = 30.0f; 
-            //float hlineLength = lineLength / 2.0f; 
-            Rectangle legendRectangle; 
-            Pen aPen = new Pen(LegendBorderColor, 1f); 
-            SolidBrush aBrush = new SolidBrush(LegendBackColor); 
-            if (isLegendVisible) { 
+        private void DrawLegend(Graphics g, float xCenter,
+           float yCenter, float hWidth, float hHeight,
+           DataCollection dc, ChartStyle cs)
+        {
+            //float spacing = 8.0f;
+            //float textHeight = 8.0f;
+            //float htextHeight = textHeight / 2.0f;
+            //float lineLength = 30.0f;
+            //float hlineLength = lineLength / 2.0f;
+            Rectangle legendRectangle;
+            Pen aPen = new Pen(LegendBorderColor, 1f);
+            SolidBrush aBrush = new SolidBrush(LegendBackColor);
+            if (isLegendVisible) {
                 legendRectangle = new Rectangle(
-                    (int) xCenter - (int)hWidth, (int)yCenter - (int)hHeight, 
+                    (int)xCenter - (int)hWidth, (int)yCenter - (int)hHeight,
                     (int)(2.0f * hWidth), (int)(2.0f * hHeight)
-                ); 
+                );
                 g.FillRectangle(aBrush, legendRectangle);
 
-                if (IsBorderVisible) { 
-                    g.DrawRectangle(aPen, legendRectangle); 
+                if (IsBorderVisible) {
+                    g.DrawRectangle(aPen, legendRectangle);
                 }
- 
-                int n = 1; 
-                foreach (DataSeries ds in dc.DataSeriesList) { 
-                    // Draw lines and symbols: 
-                    float xSymbol = legendRectangle.X + dd.spacing + dd.hlineLength; 
-                    float xText = legendRectangle.X + 2 * dd.spacing + dd.lineLength; 
-                    float yText = legendRectangle.Y + n * dd.spacing + 
-                         (2 * n - 1) * dd.htextHeight; 
+
+                int n = 1;
+                foreach (DataSeries ds in dc.DataSeriesList) {
+                    // Draw lines and symbols:
+                    float xSymbol = legendRectangle.X + dd.spacing + dd.hlineLength;
+                    float xText = legendRectangle.X + 2 * dd.spacing + dd.lineLength;
+                    float yText = legendRectangle.Y + n * dd.spacing +
+                         (2 * n - 1) * dd.htextHeight;
                     aPen = new Pen(ds.dd.lineStyle.LineColor, ds.dd.lineStyle.Thickness);
                     aPen.DashStyle = ds.dd.lineStyle.Pattern;
                     PointF ptStart = new PointF(legendRectangle.X + dd.spacing, yText);
-                    PointF ptEnd = new PointF(legendRectangle.X + dd.spacing + dd.lineLength, yText); 
-                    g.DrawLine(aPen, ptStart, ptEnd); 
-                    // Draw text: 
-                    StringFormat sFormat = new StringFormat(); 
-                    sFormat.Alignment = StringAlignment.Near; 
-                    g.DrawString(ds.SeriesName, LegendFont, 
-                    new SolidBrush(textColor), 
-                    new PointF(xText, yText - 8), sFormat); 
-                    n++; 
-                } 
-            } 
-            aPen.Dispose(); 
-            aBrush.Dispose(); 
+                    PointF ptEnd = new PointF(legendRectangle.X + dd.spacing + dd.lineLength, yText);
+                    g.DrawLine(aPen, ptStart, ptEnd);
+                    // Draw text:
+                    StringFormat sFormat = new StringFormat();
+                    sFormat.Alignment = StringAlignment.Near;
+                    g.DrawString(ds.SeriesName, LegendFont,
+                    new SolidBrush(textColor),
+                    new PointF(xText, yText - 8), sFormat);
+                    n++;
+                }
+            }
+            aPen.Dispose();
+            aBrush.Dispose();
         }
 
         public Font LegendFont

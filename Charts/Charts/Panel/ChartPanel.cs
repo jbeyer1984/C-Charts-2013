@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Data;
 
 namespace Charts
 {
@@ -86,7 +86,6 @@ namespace Charts
             this.addData(dataCollection, data);
             this.setPlotArea();
             dataCollection.AddLines(g, chartStyle);
-
         }
 
         protected void setPlotArea()
@@ -149,7 +148,8 @@ namespace Charts
             set { legend = value; }
         }
 
-        public ChartStyle ChartStyle {
+        public ChartStyle ChartStyle
+        {
             get { return chartStyle; }
             set { chartStyle = value; }
         }

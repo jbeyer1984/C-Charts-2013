@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Charts.Dynamic.Data;
+using System;
 using System.Drawing;
-using System.Collections;
 using System.Drawing.Drawing2D;
-using Charts.Dynamic.Data;
 using System.Windows.Forms;
 
 namespace Charts
@@ -73,7 +68,7 @@ namespace Charts
 
         public void AddChartPlot(Graphics g)
         {
-            // Draw ChartArea and PlotArea: 
+            // Draw ChartArea and PlotArea:
             Pen aPen = new Pen(ChartBorderColor, 1f);
             SolidBrush aBrush = new SolidBrush(ChartBackColor);
             g.FillRectangle(aBrush, ChartArea);
@@ -86,40 +81,34 @@ namespace Charts
 
             float xStartPoint = 0;
 
-            if (dd.styleType == DynamicDataChartStyle.StyleEnum.Bar)
-            {
+            if (dd.styleType == DynamicDataChartStyle.StyleEnum.Bar) {
                 xStartPoint = dd.xTickOffset + dd.xLimMin + dd.xTick / 2;
             }
 
-            // Create vertical gridlines: 
+            // Create vertical gridlines:
             float fX, fY;
-            if (IsYGrid == true)
-            {
+            if (IsYGrid == true) {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fX = xStartPoint; fX < dd.xLimMax; fX += dd.xTick)
-                {
+                for (fX = xStartPoint; fX < dd.xLimMax; fX += dd.xTick) {
                     g.DrawLine(aPen, Point2D(new PointF(fX, dd.yLimMin)),
                     Point2D(new PointF(fX, dd.yLimMax)));
                 }
             }
 
             // Create horizontal gridlines:
-            if (IsXGrid == true)
-            {
+            if (IsXGrid == true) {
                 aPen = new Pen(GridColor, 1f);
                 aPen.DashStyle = GridPattern;
-                for (fY = dd.yLimMin + dd.yTick; fY < dd.yLimMax; fY += dd.yTick)
-                {
+                for (fY = dd.yLimMin + dd.yTick; fY < dd.yLimMax; fY += dd.yTick) {
                     g.DrawLine(aPen, Point2D(new PointF(dd.xLimMin, fY)),
                     Point2D(new PointF(dd.xLimMax, fY)));
                 }
             }
 
-            // Create the x-axis tick marks: 
+            // Create the x-axis tick marks:
             aBrush = new SolidBrush(TickFontColor);
-            for (fX = xStartPoint; fX <= dd.xLimMax; fX += dd.xTick)
-            {
+            for (fX = xStartPoint; fX <= dd.xLimMax; fX += dd.xTick) {
                 PointF yAxisPoint = Point2D(new PointF(fX, dd.yLimMin));
                 g.DrawLine(
                     Pens.Black, yAxisPoint,
@@ -138,9 +127,8 @@ namespace Charts
                 );
             }
 
-            // Create the y-axis tick marks: 
-            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += dd.yTick)
-            {
+            // Create the y-axis tick marks:
+            for (fY = dd.yLimMin; fY <= dd.yLimMax; fY += dd.yTick) {
                 PointF xAxisPoint = Point2D(new PointF(dd.xLimMin, fY));
                 g.DrawLine(Pens.Black, xAxisPoint,
                 new PointF(xAxisPoint.X + 5f, xAxisPoint.Y));
@@ -161,32 +149,31 @@ namespace Charts
             float yOffset = chartArea.Height / 100.0f;
             SizeF labelFontSize = g.MeasureString("A", LabelFont);
             SizeF titleFontSize = g.MeasureString("A", TitleFont);
-            // Add horizontal axis label: 
+            // Add horizontal axis label:
             SolidBrush aBrush = new SolidBrush(LabelFontColor);
             SizeF stringSize = g.MeasureString(XLabel, LabelFont);
             g.DrawString(XLabel, LabelFont, aBrush,
             new Point(PlotArea.Left + PlotArea.Width / 2 -
             (int)stringSize.Width / 2, ChartArea.Bottom -
             (int)yOffset - (int)labelFontSize.Height));
-            // Add y-axis label: 
+            // Add y-axis label:
             StringFormat sFormat = new StringFormat();
             sFormat.Alignment = StringAlignment.Center;
             stringSize = g.MeasureString(YLabel, LabelFont);
-            // Save the state of the current Graphics object 
+            // Save the state of the current Graphics object
             GraphicsState gState = g.Save();
             g.TranslateTransform(xOffset,
                 yOffset + titleFontSize.Height
             + yOffset / 3 + PlotArea.Height / 2);
             g.RotateTransform(-90);
             g.DrawString(YLabel, LabelFont, aBrush, 0, 0, sFormat);
-            // Restore it: 
+            // Restore it:
             g.Restore(gState);
 
-            // Add title: 
+            // Add title:
             aBrush = new SolidBrush(TitleFontColor);
             stringSize = g.MeasureString(Title, TitleFont);
-            if (Title.ToUpper() != "NO TITLE")
-            {
+            if (Title.ToUpper() != "NO TITLE") {
                 g.DrawString(Title, TitleFont, aBrush,
                 new Point(PlotArea.Left + PlotArea.Width / 2 -
                 (int)stringSize.Width / 2,
@@ -199,8 +186,7 @@ namespace Charts
         {
             PointF aPoint = new PointF();
             if (pt.X < dd.xLimMin || pt.X > dd.xLimMax ||
-            pt.Y < dd.yLimMin || pt.Y > dd.yLimMax)
-            {
+            pt.Y < dd.yLimMin || pt.Y > dd.yLimMax) {
                 pt.X = Single.NaN;
                 pt.Y = Single.NaN;
             }

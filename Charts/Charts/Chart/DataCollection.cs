@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 
 namespace Charts
 {
@@ -20,66 +15,65 @@ namespace Charts
         {
             dataSeriesList = new ArrayList();
         }
+
         public ArrayList DataSeriesList
         {
             get { return dataSeriesList; }
             set { dataSeriesList = value; }
         }
+
         public int DataSeriesIndex
         {
             get { return dataSeriesIndex; }
             set { dataSeriesIndex = value; }
         }
+
         public void add(DataSeries ds)
         {
             dataSeriesList.Add(ds);
-            if (ds.SeriesName == "Default Name")
-            {
+            if (ds.SeriesName == "Default Name") {
                 ds.SeriesName = "DataSeries" + DataCollection.seriesCounter;
                 DataCollection.seriesCounter++;
 
                 //dataSeriesList.Count.ToString();
             }
         }
+
         public void insert(int dataSeriesIndex, DataSeries ds)
         {
             dataSeriesList.Insert(dataSeriesIndex, ds);
-            if (ds.SeriesName == "Default Name")
-            {
+            if (ds.SeriesName == "Default Name") {
                 dataSeriesIndex = dataSeriesIndex + 1;
                 ds.SeriesName = "DataSeries" +
                 dataSeriesIndex.ToString();
             }
         }
+
         public void Remove(string dataSeriesName)
         {
-            if (dataSeriesList != null)
-            {
-                for (int i = 0; i < dataSeriesList.Count; i++)
-                {
+            if (dataSeriesList != null) {
+                for (int i = 0; i < dataSeriesList.Count; i++) {
                     DataSeries ds = (DataSeries)dataSeriesList[i];
-                    if (ds.SeriesName == dataSeriesName)
-                    {
+                    if (ds.SeriesName == dataSeriesName) {
                         dataSeriesList.RemoveAt(i);
                     }
                 }
             }
         }
+
         public void RemoveAll()
         {
             dataSeriesList.Clear();
         }
+
         public void AddLines(Graphics g, ChartStyle cs)
         {
-            // Plot lines: 
-            foreach (DataSeries ds in DataSeriesList)
-            {
-                if (ds.dd.lineStyle.IsVisible == true)
-                {
+            // Plot lines:
+            foreach (DataSeries ds in DataSeriesList) {
+                if (ds.dd.lineStyle.IsVisible == true) {
                     Pen aPen = new Pen(ds.dd.lineStyle.LineColor,
                      ds.dd.lineStyle.Thickness); aPen.DashStyle = ds.dd.lineStyle.Pattern;
-                    for (int i = 1; i < ds.PointList.Count; i++)
-                    {
+                    for (int i = 1; i < ds.PointList.Count; i++) {
                         g.DrawLine(aPen,
                           cs.Point2D((PointF)ds.PointList[i - 1]), cs.Point2D((PointF)ds.PointList[i]));
                     }
@@ -93,8 +87,7 @@ namespace Charts
             ArrayList temp = new ArrayList();
             float[] tempy = new float[numberOfPoints];
             int n = 0;
-            foreach (DataSeries ds in DataSeriesList)
-            {
+            foreach (DataSeries ds in DataSeriesList) {
                 Pen aPen = new Pen(ds.BarStyle.dd.BorderColor,
                 ds.BarStyle.dd.BorderThickness);
                 SolidBrush aBrush = new SolidBrush(ds.BarStyle.dd.FillColor);

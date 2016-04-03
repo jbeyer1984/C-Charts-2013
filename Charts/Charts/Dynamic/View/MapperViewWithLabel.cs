@@ -1,23 +1,15 @@
-﻿using Charts.Dynamic.Data;
-using Charts.Dynamic.View;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Charts
 {
-    class MapperViewWithLabel : MapperView
+    internal class MapperViewWithLabel : MapperView
     {
         private Label label;
         private int labelHeight;
 
         public MapperViewWithLabel()
         {
-
         }
 
         public override void build()

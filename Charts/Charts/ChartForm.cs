@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Data;
 
 /// consists ChartPanel, the panel that consist chart display
 namespace Charts

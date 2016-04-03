@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Data;
 
 namespace Charts
 {
     public class ChartPanelLine : ChartPanel
     {
-
-        public ChartPanelLine(PanelMatrix panelMatrix):
+        public ChartPanelLine(PanelMatrix panelMatrix) :
             base(panelMatrix)
         {
         }
@@ -40,7 +37,6 @@ namespace Charts
                 ds.dd = (DynamicDataSeries)dynamicDataSeriesList[ds.SeriesName];
             }
         }
-
 
         protected override void fillChartType(Graphics g, DataTable data)
         {

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Data;
+using System.Drawing;
 
 namespace Charts
 {
     public class ChartPanelBar : ChartPanel
     {
-
-        public ChartPanelBar(PanelMatrix panelMatrix):
+        public ChartPanelBar(PanelMatrix panelMatrix) :
             base(panelMatrix)
         {
         }

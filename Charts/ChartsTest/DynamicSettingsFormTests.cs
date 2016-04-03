@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Charts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Charts;
 using System.Windows.Forms;
 
 namespace ChartsTest
@@ -17,7 +16,7 @@ namespace ChartsTest
             PanelMatrix panelMatrix = new PanelMatrix(chartForm);
             ChartPanel chartPanel = new ChartPanel(panelMatrix);
             DynamicSettingsForm form = new DynamicSettingsForm();
-            
+
             // this value is set hard in class, not a good approach
             form.DivisorHorizontal = 3;
             // this value is set hard in class, not a good approach
@@ -43,7 +42,6 @@ namespace ChartsTest
                 Assert.AreEqual(i * form.GridWidth, form.PosX);
                 Assert.AreEqual(row * form.GridHeight, form.PosY);
             }
-
         }
 
         public TestContext Tci

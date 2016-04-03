@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Charts
 {
-    abstract class DynamicMapper
+    internal abstract class DynamicMapper
     {
         private Panel panelToUpdate;
 
@@ -22,7 +22,7 @@ namespace Charts
             T value = (T)property.GetValue(dynamicData, null);
             decimalBox.Text = (string)Convert.ChangeType(value, typeof(string));
 
-            decimalBox.TextChanged += delegate(object sender, EventArgs e)
+            decimalBox.TextChanged += delegate (object sender, EventArgs e)
             { handleDecimalBox<T>(sender, e, property, decimalBox); };
 
             this.view.addControl(decimalBox);
@@ -35,7 +35,7 @@ namespace Charts
             lineStyleColorBox.Name = property.Name;
             lineStyleColorBox.SelectedIndex = lineStyleColorBox.Items.IndexOf(color.ToKnownColor().ToString());
 
-            lineStyleColorBox.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            lineStyleColorBox.SelectedIndexChanged += delegate (object sender, EventArgs e)
             { handleColorBox(sender, e, property, lineStyleColorBox); };
 
             this.view.addControl(lineStyleColorBox);
@@ -49,7 +49,7 @@ namespace Charts
             lineStylePatternBox.Name = "pattern";
             lineStylePatternBox.SelectedIndex = (int)lineStyle.Pattern;
 
-            lineStylePatternBox.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            lineStylePatternBox.SelectedIndexChanged += delegate (object sender, EventArgs e)
             { handleLineStyleBox(sender, e, property, lineStylePatternBox); };
 
             this.view.addControl(lineStylePatternBox);
@@ -58,7 +58,7 @@ namespace Charts
             lineStyleColorBox.Name = "color";
             lineStyleColorBox.SelectedIndex = lineStyleColorBox.Items.IndexOf(lineStyle.LineColor.ToKnownColor().ToString()); //@TODO is not set because of index searching not implemented
 
-            lineStyleColorBox.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            lineStyleColorBox.SelectedIndexChanged += delegate (object sender, EventArgs e)
             { handleLineStyleBox(sender, e, property, lineStyleColorBox); };
 
             this.view.addControl(lineStyleColorBox);
@@ -67,7 +67,7 @@ namespace Charts
             lineStyleThicknessBox.Name = "thickness";
             lineStyleThicknessBox.SelectedIndex = lineStyleThicknessBox.Items.IndexOf((int)lineStyle.Thickness);
 
-            lineStyleThicknessBox.SelectedIndexChanged += delegate(object sender, EventArgs e)
+            lineStyleThicknessBox.SelectedIndexChanged += delegate (object sender, EventArgs e)
             { handleLineStyleBox(sender, e, property, lineStyleThicknessBox); };
 
             this.view.addControl(lineStyleThicknessBox);
@@ -79,7 +79,6 @@ namespace Charts
                 T value = (T)Convert.ChangeType(decimalBox.Text, typeof(T));
                 property.SetValue(dynamicData, value, null);
             } catch (Exception ex) {
-
             }
 
             panelToUpdate.Invalidate();
