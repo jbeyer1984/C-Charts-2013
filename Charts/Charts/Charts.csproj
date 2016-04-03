@@ -84,6 +84,12 @@
     <Compile Include="Dynamic\View\MapperView.cs" />
     <Compile Include="Dynamic\View\MapperViewWithLabel.cs" />
     <Compile Include="LineStyle.cs" />
+    <Compile Include="Panel\ChartPanelBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\ChartPanelLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Panel\ChartPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -96,6 +102,7 @@
     <Compile Include="Panel\LineStylePatternBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Panel\PanelMatrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">

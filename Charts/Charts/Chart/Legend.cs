@@ -19,6 +19,9 @@ namespace Charts
         private Color legendBackColor;
         private Color legendBorderColor;
         private Font legendFont;
+        private string[] legendLabels;
+
+        private Boolean isLegendsAdded = false;
 
         public DynamicDataLegend dd; 
         //public float spacing;
@@ -62,11 +65,15 @@ namespace Charts
             }
  
             int numberOfDataSeries = dc.DataSeriesList.Count; 
-            string[] legendLabels = new string[dc.DataSeriesList.Count]; 
-            int n = 0; 
-            foreach (DataSeries ds in dc.DataSeriesList) { 
-                legendLabels[n] = ds.SeriesName; 
-                n++; 
+
+            if (!isLegendsAdded) {
+                legendLabels = new string[dc.DataSeriesList.Count];
+                int n = 0;
+                foreach (DataSeries ds in dc.DataSeriesList) { 
+                    legendLabels[n] = ds.SeriesName; 
+                    n++;
+                }
+                isLegendsAdded = true;
             }
  
             float offSet = 10; 

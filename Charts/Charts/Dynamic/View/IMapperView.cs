@@ -1,13 +1,6 @@
-﻿using Charts.Dynamic.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Charts.Dynamic.View
+﻿namespace Charts.Dynamic.View
 {
-    interface IMapperView
+    internal interface IMapperView
     {
         void build();
     }

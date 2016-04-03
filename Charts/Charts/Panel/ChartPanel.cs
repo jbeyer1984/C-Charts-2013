@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Collections;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Data;
 
 namespace Charts
 {
     public partial class ChartPanel : System.Windows.Forms.Panel
     {
-        private ChartForm chartParent;
-        private DataCollection dc;
-        private DataCollection dc2;
-        private ChartStyle cs;
-        private Legend lg;
+        private PanelMatrix panelMatrix;
+        private DataTable data;
+        private DataCollection dataCollection;
+        private ChartStyle chartStyle;
+        private ChartPanel alternativeChartPanel;
+        private Legend legend;
         private int offsetPanelX = 10;
         private int offsetPanelY = 30;
 
         public Dictionary<String, DynamicData> dynamicDataSeriesList = new Dictionary<string, DynamicData>();
 
-        public ChartPanel(ChartForm chartParent)
+        public ChartPanel(PanelMatrix panelMatrix)
         {
-            this.chartParent = chartParent;
+            this.panelMatrix = panelMatrix;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             ResizeRedraw = true;
             initPanel();
@@ -35,171 +33,149 @@ namespace Charts
         {
             this.Left = offsetPanelX;
             this.Top = offsetPanelY;
-            this.updateSize();
+            //this.updateSize();
             this.Visible = true;
 
             this.Paint += new PaintEventHandler(PlotPanelPaint);
         }
 
-        public void updateSize()
+        public void initChartArea()
         {
-            this.Width = chartParent.Size.Width - offsetPanelX;
-            this.Height = chartParent.Size.Height - 2 * offsetPanelY;
-            if (null != cs) {
-                cs.ChartArea = this.ClientRectangle;
+            if (null != chartStyle) {
+                chartStyle.ChartArea = this.ClientRectangle;
             }
         }
 
         private void initDataToPlot()
         {
-            dc = new DataCollection();
-            dc2 = new DataCollection();
-            cs = new ChartStyle(this);
+            dataCollection = new DataCollection();
+            chartStyle = new ChartStyle(this);
             //cs.ChartArea = this.ClientRectangle;
-            lg = new Legend();
-            lg.IsLegendVisible = true;
+            legend = new Legend();
+            legend.IsLegendVisible = true;
 
-            cs.dd.xLimMin = 0f;
-            cs.dd.xLimMax = 6f;
+            chartStyle.dd.xLimMin = 0f;
+            chartStyle.dd.xLimMax = 6f;
             //cs.dd.yLimMin = -1.1f;
-            cs.dd.yLimMin = 0f;
+            chartStyle.dd.yLimMin = 0f;
             //cs.dd.yLimMax = 1.1f;
-            cs.dd.yLimMax = 5f;
-
+            chartStyle.dd.yLimMax = 5f;
         }
 
-        private void PlotPanelPaint(object sender, PaintEventArgs e)
+        protected virtual void PlotPanelPaint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            //this.updateSize();
-
-            //cs.ChartArea = this.ClientRectangle;
             Console.WriteLine("paint now");
 
+            dataCollection.DataSeriesList.Clear();
             DataCollection.seriesCounter = 0;
 
-            // add lines to dc
-            this.addData();
-            this.setPlotArea(g);
-            cs.AddChartPlot(g);
-            dc.AddLines(g, cs);
-
-            // add barst to dc2
-            this.addDataTestBar(dc2);
-            //this.setPlotArea(g);
-            //cs.AddChartPlot(g);
-            dc2.addBars(g, cs, 1, 4);
-            lg.AddLegend(g, dc, cs);
+            if (null != alternativeChartPanel) {
+                alternativeChartPanel.fillChartType(g, alternativeChartPanel.Data);
+            }
+            this.fillChartType(g, data);
 
             g.Dispose();
-            //AddData(g);
-            //cs.PlotPanelStyle(g);
-            //dc.AddBars(g, cs, dc.DataSeriesList.Count, ds.PointList.Count);
         }
 
-        private void setPlotArea(Graphics g)
+        protected virtual void fillChartType(Graphics g, DataTable data)
         {
-            // Set PlotArea: 
-            int xOffset = cs.ChartArea.Width / 10;
-            int yOffset = cs.ChartArea.Height / 10;
-            // Define the plot area: 
-            int plotX = cs.ChartArea.X + xOffset;
-            int plotY = cs.ChartArea.Y + yOffset;
-            int plotWidth = cs.ChartArea.Width - 2 * xOffset;
-            int plotHeight = cs.ChartArea.Height - 2 * yOffset;
-            cs.PlotArea = new Rectangle(plotX, plotY, plotWidth, plotHeight);
+            // add lines to dc
+            this.addData(dataCollection, data);
+            this.setPlotArea();
+            dataCollection.AddLines(g, chartStyle);
+
         }
 
-        public void addData()
+        protected void setPlotArea()
+        {
+            // Set PlotArea:
+            int xOffset = 50; // cs.ChartArea.Width / 10;
+            int yOffset = 40; // cs.ChartArea.Height / 10;
+            // Define the plot area:
+            int plotX = chartStyle.ChartArea.X + xOffset;
+            int plotY = chartStyle.ChartArea.Y + yOffset;
+            int plotWidth = chartStyle.ChartArea.Width - 2 * xOffset;
+            int plotHeight = chartStyle.ChartArea.Height - 2 * yOffset;
+            chartStyle.PlotArea = new Rectangle(plotX, plotY, plotWidth, plotHeight);
+        }
+
+        public virtual void addData(DataCollection dc, DataTable data)
         {
             dc.DataSeriesList.Clear();
-            // Add Sine data with 20 data points: 
-            DataSeries ds1 = new DataSeries();
-            
+            // Add Sine data with 20 data points:
+            DataSeries ds = new DataSeries();
+
             //ds1.dd.lineStyle.LineColor = Color.Red;
             //ds1.dd.lineStyle.Thickness = 2f;
             //ds1.dd.lineStyle.Pattern = DashStyle.Dash;
-            
-            for (int i = 0; i < 20; i++)
-            {
+            //int size = 0;
+            int size = data.Rows.Count;
+
+            for (int i = 0; i < size; i++) {
                 //ds1.AddPoint(new PointF(i / 5.0f,
                 //(float)Math.Sin(i / 5.0f)));
-                ds1.AddPoint(new PointF(i, 4));
-            }
-            dc.add(ds1);
-            if (!dynamicDataSeriesList.ContainsKey(ds1.SeriesName)) {
-                Console.WriteLine(ds1.SeriesName);
-                ds1.dd.lineStyle.LineColor = Color.Red;
-                ds1.dd.lineStyle.Thickness = 2f;
-                ds1.dd.lineStyle.Pattern = DashStyle.Dash;
-                dynamicDataSeriesList.Add(ds1.SeriesName, ds1.dd);
-            } else {
-                ds1.dd = (DynamicDataSeries) dynamicDataSeriesList[ds1.SeriesName];
-            }
-            // Add Cosine data with 40 data points: 
-            //DataSeries ds2 = new DataSeries();
-            //ds2.LineStyle.LineColor = Color.Blue;
-            //ds2.LineStyle.Thickness = 1f;
-            //ds2.LineStyle.Pattern = DashStyle.Solid;
-            //for (int i = 0; i < 40; i++)
-            //{
-            //    ds2.AddPoint(new PointF(i / 5.0f,
-            //    (float)Math.Cos(i / 5.0f)));
-            //}
-            //dc.add(ds2);
-        }
-
-        public void addDataTestBar(DataCollection dc)
-        {
-            float x, y;
-            // Add data series: 
-            //dc.DataSeriesList.Clear();
-            DataSeries ds = new DataSeries();
-            ds = new DataSeries();
-            //ds.BarStyle.BorderColor = Color.Red;
-            //ds.BarStyle.BorderColor = Color.Green;
-            
-            for (int i = 0; i < 5; i++)
-            {
-                x = i + 1;
-                y = 1.0f * x;
-                ds.AddPoint(new PointF(x, y));
+                ds.AddPoint(new PointF(data.Rows[i].Field<float>(0), data.Rows[i].Field<float>(1)));
             }
             dc.add(ds);
-
-            if (!dynamicDataSeriesList.ContainsKey(ds.SeriesName))
-            {
+            if (!dynamicDataSeriesList.ContainsKey(ds.SeriesName)) {
                 Console.WriteLine(ds.SeriesName);
-                ds.BarStyle.dd.BorderColor = Color.Transparent;
-                ds.BarStyle.dd.FillColor = Color.Green;
-                ds.BarStyle.dd.BarWidth = 0.6f;
-                dynamicDataSeriesList.Add(ds.SeriesName, ds.BarStyle.dd);
+                ds.dd.lineStyle.LineColor = Color.Red;
+                ds.dd.lineStyle.Thickness = 2f;
+                ds.dd.lineStyle.Pattern = DashStyle.Dash;
+                dynamicDataSeriesList.Add(ds.SeriesName, ds.dd);
+            } else {
+                ds.dd = (DynamicDataSeries)dynamicDataSeriesList[ds.SeriesName];
             }
-            else
-            {
-                ds.BarStyle.dd = (DynamicDataBar) dynamicDataSeriesList[ds.SeriesName];
-            }
+        }
 
+        public PanelMatrix PanelMatrix
+        {
+            get { return panelMatrix; }
+            set { panelMatrix = value; }
+        }
+
+        public DataTable Data
+        {
+            get { return data; }
+            set { data = value; }
         }
 
         public Legend Legend
         {
-            get { return lg; }
-            set { value = lg; }
+            get { return legend; }
+            set { legend = value; }
         }
 
-        public ChartStyle ChartStyle
-        {
-            get { return cs; }
-            set { value = cs; }
+        public ChartStyle ChartStyle {
+            get { return chartStyle; }
+            set { chartStyle = value; }
         }
 
-        public Size size
+        public ChartPanel AlternativeChartPanel
         {
-            get { return size; }
-            set { value = size; }
+            get { return alternativeChartPanel; }
+            set { alternativeChartPanel = value; }
+        }
+
+        public DataCollection DataCollection
+        {
+            get { return dataCollection; }
+            set { dataCollection = value; }
+        }
+
+        public int OffsetPanelX
+        {
+            get { return offsetPanelX; }
+            set { offsetPanelX = value; }
+        }
+
+        public int OffsetPanelY
+        {
+            get { return offsetPanelY; }
+            set { offsetPanelY = value; }
         }
     }
 }

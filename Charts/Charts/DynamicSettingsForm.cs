@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Charts
@@ -34,20 +28,21 @@ namespace Charts
 
         private void initPanelPaintAlignment()
         {
+            // @todo this value are set hard in class, not a good approach
             divisorHorizontal = 3;
             divisorVertical = 2;
             posX = 0;
             posY = 0;
+            // - 40 because place is wrong calculated, seems like whole Form with border
             gridWidth = (ClientRectangle.Width - 40) / divisorHorizontal;
             gridHeight = ClientRectangle.Height / divisorVertical;
         }
 
         private void DynamicSettings_Load(object sender, EventArgs e)
         {
-
         }
 
-        private void addPanel(Panel panel)
+        public void addPanel(Panel panel)
         {
             this.Controls.Add(panel);
             panel.Show();
@@ -58,13 +53,14 @@ namespace Charts
             Console.WriteLine("dynamic Form gridWidth: {0}", gridWidth);
         }
 
-        private void calculateAlignmentForPanel()
+        public void calculateAlignmentForPanel()
         {
-            if ((posX) == (gridWidth * (divisorHorizontal-1)))
-            {
+            // divisorHorizontal -1 because, last Panel in row is related to posX
+            if ((posX) == (gridWidth * (divisorHorizontal - 1))) {
                 posY += gridHeight;
             }
 
+            // best bet is 0 % 3 is 0 and 3 % 3 is 0 ;)
             posX = gridWidth * (DynamicSettingsForm.numOfInstance % divisorHorizontal);
 
             DynamicSettingsForm.numOfInstance++;
@@ -74,10 +70,9 @@ namespace Charts
         {
             Graphics g = e.Graphics;
 
-            if (!dynamicSettingsMapperPainted)
-            {
-                Form chartForm = (Form) Application.OpenForms["ChartForm"];
-                ChartPanel panelToUpdate = (ChartPanel) chartForm.Controls["ChartPanel"];
+            if (!dynamicSettingsMapperPainted) {
+                Form chartForm = (Form)Application.OpenForms["ChartForm"];
+                ChartPanel panelToUpdate = (ChartPanel)chartForm.Controls["ChartPanel"];
 
                 Panel panelChartStyle = new Panel();
                 panelChartStyle.Text = "ChartStyle";
@@ -105,8 +100,7 @@ namespace Charts
 
                 // init series
                 int length = panelToUpdate.dynamicDataSeriesList.Count;
-                foreach (string seriesName in panelToUpdate.dynamicDataSeriesList.Keys)
-                {
+                foreach (string seriesName in panelToUpdate.dynamicDataSeriesList.Keys) {
                     Panel panelSeries = new Panel();
                     panelSeries.Text = seriesName;
                     this.addPanel(panelSeries);
@@ -128,7 +122,42 @@ namespace Charts
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+        }
 
+        public int GridWidth
+        {
+            get { return gridWidth; }
+            set { gridWidth = value; }
+        }
+
+        public int GridHeight
+        {
+            get { return gridHeight; }
+            set { gridHeight = value; }
+        }
+
+        public int DivisorHorizontal
+        {
+            get { return divisorHorizontal; }
+            set { divisorHorizontal = value; }
+        }
+
+        public int DivisorVertical
+        {
+            get { return divisorVertical; }
+            set { divisorVertical = value; }
+        }
+
+        public int PosX
+        {
+            get { return posX; }
+            set { posX = value; }
+        }
+
+        public int PosY
+        {
+            get { return posY; }
+            set { posY = value; }
         }
     }
 }

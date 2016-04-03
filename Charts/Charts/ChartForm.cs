@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Data;
 
 /// consists ChartPanel, the panel that consist chart display
 namespace Charts
 {
     public partial class ChartForm : Form
     {
-        ChartPanel chartPanel;
+        private PanelMatrix panelMatrix;
+        private ChartPanel chartPanel;
         private int offsetPanelX = 10;
         private int offsetPanelY = 30;
 
@@ -32,17 +26,55 @@ namespace Charts
 
         private void initChartPanel()
         {
-            chartPanel = new ChartPanel(this);
+            panelMatrix = new PanelMatrix(this);
+            chartPanel = new ChartPanelLine(panelMatrix);
             chartPanel.Name = "ChartPanel";
 
-            this.Controls.Add(chartPanel);
+            DataTable data = new DataTable();
+            data.Columns.Add("x", typeof(float));
+            data.Columns.Add("y", typeof(float));
+            for (int i = 0; i < 20; i++) {
+                //ds1.AddPoint(new PointF(i / 5.0f,
+                //(float)Math.Sin(i / 5.0f)));
+                data.Rows.Add(i, 4);
+            }
+
+            chartPanel.Data = data;
+
+            DataTable dataBar = new DataTable();
+            dataBar.Columns.Add("x", typeof(float));
+            dataBar.Columns.Add("y", typeof(float));
+            float x = 0;
+            float y = 0;
+            for (int i = 0; i < 5; i++) {
+                x = i + 1;
+                y = 1.0f * x;
+                dataBar.Rows.Add(x, y);
+            }
+
+            ChartPanel onlyBar = new ChartPanelBar(panelMatrix);
+            onlyBar.Data = dataBar;
+
+            ChartPanel lineMergedBar = new ChartPanelBar(panelMatrix);
+            lineMergedBar.Data = dataBar;
+            lineMergedBar.AlternativeChartPanel = chartPanel;
+
+            //panelMatrix.add(new ChartPanel(panelMatrix));
+            panelMatrix.add(chartPanel);
+            panelMatrix.add(onlyBar);
+            panelMatrix.add(lineMergedBar);
+
+            int size = panelMatrix.Matrix.Count;
+            for (int i = 0; i < size; i++) {
+                this.Controls.Add(panelMatrix.Matrix[i]);
+            }
 
             this.initDynamicSettingsForm();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            chartPanel.updateSize();
+            panelMatrix.initSizeOfPanels();
         }
 
         protected void initDynamicSettingsForm()
@@ -56,6 +88,18 @@ namespace Charts
         private void button1_Click_1(object sender, EventArgs e)
         {
             this.initDynamicSettingsForm();
+        }
+
+        public int OffsetPanelX
+        {
+            get { return offsetPanelX; }
+            set { offsetPanelX = value; }
+        }
+
+        public int OffsetPanelY
+        {
+            get { return offsetPanelY; }
+            set { offsetPanelY = value; }
         }
     }
 }

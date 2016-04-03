@@ -103,13 +103,10 @@ namespace Charts
                 PointF pt;
                 float width;
 
-                if (cs.dd.styleType == DynamicDataChartStyle.StyleEnum.Bar)
-                {
-                    if (numberOfDataSeries == 1)
-                    {
+                if (cs.dd.styleType == DynamicDataChartStyle.StyleEnum.Bar) {
+                    if (numberOfDataSeries == 1) {
                         width = cs.dd.xTick * ds.BarStyle.dd.BarWidth;
-                        for (int i = 0; i < ds.PointList.Count; i++)
-                        {
+                        for (int i = 0; i < ds.PointList.Count; i++) {
                             pt = (PointF)ds.PointList[i];
                             float x = cs.dd.xTickOffset + pt.X - cs.dd.xTick / 2;
                             //Console.WriteLine(" pos{0} : {1}", i, pt.X);
@@ -120,12 +117,9 @@ namespace Charts
                             g.FillPolygon(aBrush, pts);
                             g.DrawPolygon(aPen, pts);
                         }
-                    }
-                    else if (numberOfDataSeries > 1)
-                    {
+                    } else if (numberOfDataSeries > 1) {
                         width = 0.7f * cs.dd.xTick;
-                        for (int i = 0; i < ds.PointList.Count; i++)
-                        {
+                        for (int i = 0; i < ds.PointList.Count; i++) {
                             pt = (PointF)ds.PointList[i];
                             Console.WriteLine(" pos{0} : {1}", i, pt.X);
                             float w1 = width / numberOfDataSeries;
