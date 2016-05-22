@@ -5,7 +5,22 @@ using System;
 namespace Charts.Chart.CacheFolder
 {
     /// <summary>
-    /// cache forces creation, other behaviour then connector
+    /// cache like behaviour, through wrapping connector functionalities
+    /// 
+    /// scenario: in class DynamicSettingsForm should exist a connection for
+    ///           2 objects in ex. panelToUpdate and dynamicPanel
+    ///           the dynamicPanel shows properties for different panels,
+    ///           so 1 dynamicPanel to different panels to update
+    /// usages:
+    /// 1. cache(obj1).by(obj2)
+    /// 2. cache(obj1).canBeNew().getByType(type)
+    /// 3. with(obj1).getByType(type)
+    /// 4. cache(obj1).delete().getByType(type)
+    /// 
+    /// optional usages:
+    /// ICacheAble uses isAlreadyExisting, examples are in builder functions or DynamicSettingsForm
+    /// 
+    /// dependencies: classes must implement IIdentifier and ICacheAble
     /// </summary>
     public class Cache : ICache
     {

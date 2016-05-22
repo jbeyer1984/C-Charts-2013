@@ -2,6 +2,9 @@
 
 namespace Charts.Factories
 {
+    /// <summary>
+    /// is an open singelton for testing later
+    /// </summary>
     public class Inst
     {
         private static BuilderInstance factory = null;

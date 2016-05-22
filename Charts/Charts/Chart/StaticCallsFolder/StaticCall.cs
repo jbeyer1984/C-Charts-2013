@@ -4,6 +4,9 @@ using System;
 
 namespace Charts.Chart.StaticCallsFolder
 {
+    /// <summary>
+    /// provides static calls, but also use with singelton approach
+    /// </summary>
     public class StaticCall
     {
         public void initIdentifierOneTime(object obj)

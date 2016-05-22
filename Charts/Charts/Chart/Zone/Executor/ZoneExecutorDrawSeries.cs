@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
+    /// <summary>
+    /// go through zones of zoneList and mark if mouse got clicked in zone
+    /// </summary>
     public class ZoneExecutorDrawSeries : IExecutorByClick, IIdentifier, ICacheAble
     {
         private DataSeries dataSeries;

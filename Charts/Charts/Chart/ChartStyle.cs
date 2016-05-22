@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
+    /// <summary>
+    /// @todo make overview and comment
+    /// </summary>
     public class ChartStyle : IDynamicData
     {
         private Panel panel;

@@ -4,6 +4,9 @@ using System.Drawing.Drawing2D;
 
 namespace Charts
 {
+    /// <summary>
+    /// Zone for marking specific regions, now it's used for bar
+    /// </summary>
     public class ZoneBarByIndex
     {
         private ChartPanel chartPanel;

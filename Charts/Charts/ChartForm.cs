@@ -8,7 +8,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
-    /// consists ChartPanel, the panel that consist chart display
+    /// <summary>
+    /// @todo comment this class
+    /// </summary>
     public partial class ChartForm : Form, IIdentifier
     {
         private PanelMatrix panelMatrix;

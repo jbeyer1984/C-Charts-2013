@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Charts.Chart.Registry
 {
+    /// <summary>
+    /// tracks count of created instances
+    /// </summary>
     public class RegistryCountInstances
     {
         private Dictionary<Type, int> countInstancesList = new Dictionary<Type, int>();

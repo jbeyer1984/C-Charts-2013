@@ -7,6 +7,11 @@ using System.ComponentModel;
 
 namespace Charts.Chart.StateFolder
 {
+    /// <summary>
+    /// represents the convention of available states
+    /// 
+    /// @todo some states have to be tracked of changes
+    /// </summary>
     public abstract class StateAbstract : INotifyPropertyChanged, ICacheAble, IIdentifier
     {
         private String state;

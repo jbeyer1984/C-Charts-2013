@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
+    /// <summary>
+    /// binds chart panel properties like xTick and other's with dynamicData approach to panel
+    /// </summary>
     internal abstract class DynamicMapper
     {
         private Panel panelToUpdate;

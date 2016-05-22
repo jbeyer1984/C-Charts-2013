@@ -4,6 +4,9 @@ using System.Data;
 
 namespace Charts.Factories
 {
+    /// <summary>
+    /// offers panel and state build function
+    /// </summary>
     public class BuilderInstance
     {
         public virtual ChartPanel getBuiltChartPanelByData(ChartPanel chartPanel, DataTable data, String identifierName = null)

@@ -4,6 +4,11 @@ using System.Drawing;
 
 namespace Charts.Chart.PopupFolder
 {
+    /// <summary>
+    /// show selected options and other fast options
+    /// 
+    /// disadvantages: border is not fully disappeared
+    /// </summary>
     public class PopupWindow : System.Windows.Forms.ToolStripDropDown, IIdentifier, ICacheAble
     {
         private string identifier;

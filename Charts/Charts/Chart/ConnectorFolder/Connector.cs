@@ -7,6 +7,23 @@ using System.Collections.Generic;
 
 namespace Charts.Chart.ConnectorFolder
 {
+    /// <summary>
+    /// This class is used for binding dependencies of classes with logging implemented
+    /// 
+    /// scenario: bind ChartForm obj to ChartPanel obj, that it can be used
+    ///           later for chartPanel.chartForm call
+    /// a dictionary will be used with a string identifier like ChartForm_ChartPanel
+    /// 
+    /// usages *chaining is used*:
+    /// 1. connect(targetClass).by(externalClass) look below call 1.2 will be used like targetClass.externalClass
+    /// 1.2 with(targetClass).getByType(externalClass.GetType())
+    /// 1.3 with(targetClass).forceCreation().getByType(anyClassType) is later used for cache implementation in other class
+    /// 1.4 with(targetClass).remove().getByType(anyClassType) is used for removing entries
+    /// 
+    /// dependencies: classes must implement IIdentifier
+    /// advantages: the classes must implement IIdentifier interface and logging is available
+    /// disadvantages: there are not needed any getters and setters, so sometime it is not obvious
+    /// </summary>
     public class Connector : IConnector
     {
         private Dictionary<String, Dictionary<object, object>> dictionary = new Dictionary<String, Dictionary<object, object>>();

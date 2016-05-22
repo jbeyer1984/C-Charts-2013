@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Charts.Chart.Wrapper
 {
+    /// <summary>
+    /// selected chart panel data will be shown on right click of panel
+    /// </summary>
     public class DataTablePanelWrapper : IIdentifier, ICacheAble
     {
         private string identifier;
