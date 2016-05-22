@@ -1,12 +1,10 @@
 ﻿using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Identifier;
-using Charts.Chart.StaticCallsFolder;
 using Charts.Factories;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-
 
 namespace Charts
 {
@@ -14,8 +12,10 @@ namespace Charts
     public partial class ChartForm : Form, IIdentifier
     {
         private PanelMatrix panelMatrix;
+
         //private ChartPanel onlyLine;
         private int offsetPanelX = 10;
+
         private int offsetPanelY = 30;
         private ChartPanel currentClickedPanel; //@todo should be mapped more general
         private DynamicSettingsForm dynamicSettingsForm;

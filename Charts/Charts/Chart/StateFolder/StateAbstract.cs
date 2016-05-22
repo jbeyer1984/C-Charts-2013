@@ -4,9 +4,6 @@ using Charts.Chart.Identifier;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Charts.Chart.StateFolder
 {
@@ -43,7 +40,7 @@ namespace Charts.Chart.StateFolder
             //DebugSettings.log(string.Format("capacity of stateLIst: {0}", stateList.Capacity));
 
             if (0 < stateList.Count) {
-                string stateToCompare = stateList[stateList.Count -1 ];
+                string stateToCompare = stateList[stateList.Count - 1];
                 if (stateToCompare.Equals(EnumChartPanelState.isMarkedSelected.ToString()) // check transitions fo state
                     && state.Equals(EnumChartPanelState.isDrawn.ToString())) {
                     DebugSettings.log(string.Format("!!transition from {0} to {1} should not exist", stateToCompare, state));
@@ -56,7 +53,6 @@ namespace Charts.Chart.StateFolder
             }
             stateList.Add(state);
 
-            
             DebugSettings.log(string.Format("{0} # {1}", identifier, state));
             //Console.WriteLine(state);
         }

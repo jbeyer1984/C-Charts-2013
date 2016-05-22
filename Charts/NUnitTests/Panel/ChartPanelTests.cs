@@ -1,17 +1,11 @@
-﻿using Charts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Charts.Tests
 {
     [TestFixture()]
-    class ChartPanelTests
+    internal class ChartPanelTests
     {
         public ChartPanelInstance chartPanel;
 
@@ -20,7 +14,7 @@ namespace Charts.Tests
         {
             chartPanel = new ChartPanelInstance();
         }
-        
+
         [TestCase]
         public void initDataToPlot_ChartPanel_IsDataCollectionCreated()
         {
@@ -28,7 +22,7 @@ namespace Charts.Tests
             chartPanel.initDataToPlot();
             Assert.IsInstanceOf(typeof(DataCollection), chartPanel.DataCollection);
         }
-        
+
         [TestCase]
         public void initDataToPlot_ChartPanel_IsChartStyleCreated()
         {
@@ -46,14 +40,12 @@ namespace Charts.Tests
             chartPanel.setPlotAreaF();
             Assert.AreNotEqual(chartPanel.ChartStyle.PlotArea.X, chartPanel.ClientRectangle.X);
         }
-
     }
 
     public class ChartPanelInstance : ChartPanel
     {
         public ChartPanelInstance()
         {
-
         }
 
         protected override void addData(DataCollection dc, DataTable data)

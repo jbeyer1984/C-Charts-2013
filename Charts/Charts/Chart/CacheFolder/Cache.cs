@@ -1,9 +1,6 @@
 ﻿using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.ConnectorFolder;
-using Charts.Chart.Identifier;
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Charts.Chart.CacheFolder
 {
@@ -68,7 +65,7 @@ namespace Charts.Chart.CacheFolder
             if (isCanBeNewCreated) {
                 isCanBeNewCreated = false;
                 return connector.forceCreation().getByType(className); // raw object will be created
-            } else if(isCanBeRemoved) {
+            } else if (isCanBeRemoved) {
                 connector.with(connector.WithTemp).remove().getByType(className);
                 isCanBeRemoved = false;
                 return null;

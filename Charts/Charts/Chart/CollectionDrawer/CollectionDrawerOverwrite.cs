@@ -1,5 +1,4 @@
-﻿using Charts.Chart.Debug;
-using Charts.Chart.StaticCallsFolder;
+﻿using Charts.Chart.StaticCallsFolder;
 using Charts.Chart.Zone.ZoneInterfaces;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ namespace Charts
         private bool isButtonsCreated;
 
         private List<GraphicsPath> paths = new List<GraphicsPath>();
-        
 
         public CollectionDrawerOverwrite(ChartPanel chartPanel)
         {
@@ -40,13 +38,12 @@ namespace Charts
                 //counterSeries++;
                 //DebugSettings.log(String.Format("$ overwriteDrawCollection $ length of seriesList : {0}", counterSeries));
 
-
                 DataSeries dataSeries = zoneExecutorDrawSeries.DataSeries;
 
                 //DebugSettings.log(String.Format("+++ state : {0}", chartPanel.State.State));
                 if (StaticCall.isChartPanelSelectModeEqual(ChartPanel, EnumChartPanelSelectMode.isOneSelect)
                     && StaticCall.isChartPanelStateEqual(ChartPanel, EnumChartPanelState.isSelected)) { // singleMode
-                    //DebugSettings.log(String.Format("$overwriteDrawCollection$ length of selecteZoneBarList : {0}", zoneExecutorDrawSeries.SelectedZoneBarList.Count)); 
+                    //DebugSettings.log(String.Format("$overwriteDrawCollection$ length of selecteZoneBarList : {0}", zoneExecutorDrawSeries.SelectedZoneBarList.Count));
 
                     if (1 < zoneExecutorDrawSeries.SelectedZoneBarList.Count) {
                         zoneExecutorDrawSeries.SelectedZoneBarList.Clear();

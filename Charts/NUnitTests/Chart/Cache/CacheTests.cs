@@ -1,7 +1,6 @@
-﻿using NUnit.Framework;
-using Charts.Chart.CacheFolder.CacheInterfaces;
-using Charts.Chart.CacheFolder;
+﻿using Charts.Chart.CacheFolder;
 using Charts.Chart.ConnectorFolder;
+using NUnit.Framework;
 
 namespace Charts.Tests
 {

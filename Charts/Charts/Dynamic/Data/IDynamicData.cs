@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Charts.Dynamic.Data
+﻿namespace Charts.Dynamic.Data
 {
-    interface IDynamicData
+    internal interface IDynamicData
     {
         void initDynamicData();
     }

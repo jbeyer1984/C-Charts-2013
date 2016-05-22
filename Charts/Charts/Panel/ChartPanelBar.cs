@@ -1,11 +1,6 @@
-﻿using Charts.Chart.CacheFolder;
+﻿using Charts.Chart.StateFolder;
 using Charts.Chart.Wrapper;
-using Charts.Chart.PopupFolder;
-using Charts.Chart.StateFolder;
-using Charts.Chart.StateFolder.StateInterfaces;
 using Charts.Factories;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -62,7 +57,7 @@ namespace Charts
         {
             getState(this.GetType()).State = EnumChartPanelState.invalidate.ToString();
             base.PlotPanelPaint(sender, e);
-            
+
             getState(this.GetType()).State = EnumChartPanelState.isDrawn.ToString();
         }
 

@@ -1,6 +1,4 @@
-﻿using Charts.Chart.CacheFolder;
-using Charts.Chart.CacheFolder.CacheInterfaces;
-using Charts.Factories;
+﻿using Charts.Factories;
 using System.Collections.Generic;
 using System.Windows.Forms;
 

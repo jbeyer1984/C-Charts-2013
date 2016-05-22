@@ -1,7 +1,6 @@
 ﻿using Charts.Chart.StateFolder;
 using Charts.Chart.Wrapper;
 using Charts.Factories;
-using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;

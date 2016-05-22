@@ -1,17 +1,12 @@
-﻿using Charts.Chart.CacheFolder.CacheInterfaces;
-using Charts.Chart.Wrapper;
+﻿using Charts.Chart.Wrapper;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Charts.Factories
 {
     public class BuilderInstance
     {
-        public virtual ChartPanel getBuiltChartPanelByData (ChartPanel chartPanel, DataTable data, String identifierName = null)
+        public virtual ChartPanel getBuiltChartPanelByData(ChartPanel chartPanel, DataTable data, String identifierName = null)
         {
             Inst.getStaticCall().initIdentifierOneTime(chartPanel);
             ChartPanel chartPanelNew = getInitializedChartPanel(chartPanel, data);

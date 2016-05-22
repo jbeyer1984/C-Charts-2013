@@ -9,11 +9,11 @@ namespace Charts.Chart.ConnectorFolder
 {
     public class Connector : IConnector
     {
-        Dictionary<String, Dictionary<object, object>> dictionary = new Dictionary<String, Dictionary<object, object>>();
+        private Dictionary<String, Dictionary<object, object>> dictionary = new Dictionary<String, Dictionary<object, object>>();
 
-        object withTemp = null;
-        object byTemp = null;
-        String identifier = null;
+        private object withTemp = null;
+        private object byTemp = null;
+        private String identifier = null;
         private String directionBack = "<-";
         private String directionForward = "->";
         private bool isNullAble = false;
@@ -53,7 +53,7 @@ namespace Charts.Chart.ConnectorFolder
                     hasBeenCreatedNew = true;
                     dictionary[identifier].Add(withTemp, byTemp);
                 }
-            }  else {
+            } else {
                 Dictionary<object, object> dictionaryTemp = new Dictionary<object, object>();
                 dictionaryTemp.Add(withTemp, byTemp);
                 dictionary.Add(identifier, dictionaryTemp);
@@ -68,7 +68,6 @@ namespace Charts.Chart.ConnectorFolder
                 );
                 hasBeenCreatedNew = false;
             }
-                
         }
 
         protected void checkFromNotNull()
@@ -128,8 +127,6 @@ namespace Charts.Chart.ConnectorFolder
                 if (dictionary[identifier].ContainsKey(withTemp)) {
                     byTemp = dictionary[identifier][withTemp];
                 }
-                
-                
             }
 
             if (isShouldBeRemoved) {
@@ -148,8 +145,6 @@ namespace Charts.Chart.ConnectorFolder
             } else if (null == byTemp) {
                 throw new Exception(string.Format("both are not connected WithTemp {0}, ByTemp {1} mit ClassName {2}", withTemp, byTemp, className));
             }
-
-            
 
             if (isCreateAble) {
                 isCreateAble = false;
@@ -211,7 +206,6 @@ namespace Charts.Chart.ConnectorFolder
             get { return directionForward; }
             set { directionForward = value; }
         }
-
 
         public String DirectionBack
         {

@@ -1,12 +1,9 @@
-﻿using Charts.Chart.Debug;
-using Charts.Chart.Identifier;
-using Charts.Chart.StaticCallsFolder;
+﻿using Charts.Chart.StaticCallsFolder;
 using Charts.Chart.Zone.ZoneInterfaces;
 using Charts.Factories;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Charts
 {
@@ -26,7 +23,7 @@ namespace Charts
             //DebugSettings.log(String.Format("### state : {0}", ChartPanel.State.State));
             //if (null != ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite
             //    && ChartPanel.State.State.Equals(ChartPanelState.isMarkedSelected.ToString())) {
-                //ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
+            //ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
             //}
             //ChartPanel.ResumeLayout();
         }
@@ -54,7 +51,7 @@ namespace Charts
 
                 Inst.getInstance().getCache().with(this).delete().getByType(typeof(ZoneExecutorDrawSeries));
                 currentExecutorByClick = Inst.getInstance().getCache().with(this).canBeNew().getByType(typeof(ZoneExecutorDrawSeries)) as ZoneExecutorDrawSeries;
-                
+
                 //currentExecutorByClick = ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.ZoneExecutorSeriesList[0];
                 //currentExecutorByClick = Inst.getInstance().getCache().with(this).canBeNew().getByType(typeof(ZoneExecutorDrawSeries)) as ZoneExecutorDrawSeries;
             }

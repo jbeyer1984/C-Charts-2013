@@ -15,7 +15,6 @@ namespace Charts.Tests
             chartPanelBarMock = new ChartPanelBarMock();
         }
 
-
         [TestCase]
         public void addData_DataSeries_IsDataSeriesAddedToColection()
         {
@@ -66,12 +65,11 @@ namespace Charts.Tests
             Assert.Fail();
         }
     }
-    
+
     public class ChartPanelBarMock : ChartPanelBar
     {
         public ChartPanelBarMock()
         {
-
         }
 
         public void addDataF(DataCollection dataCollection, DataTable data)

@@ -1,9 +1,7 @@
 ﻿using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.Identifier;
-using System.Windows.Forms;
 using System;
-using Charts.Factories;
-using Charts.Chart.StaticCallsFolder;
+using System.Windows.Forms;
 
 namespace Charts
 {
@@ -23,7 +21,7 @@ namespace Charts
 
         private String identifier = "";
         private Boolean isAlreadyCreated = false; // @todo change condition in positive
-        
+
         public DynamicPanel()
         {
         }

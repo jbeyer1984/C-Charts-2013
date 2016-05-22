@@ -1,5 +1,4 @@
 ﻿using Charts.Chart.CacheFolder;
-using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.ConnectorFolder;
 
 namespace Charts.Factories

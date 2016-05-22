@@ -1,15 +1,10 @@
 ﻿using Charts.Dynamic.View;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Charts
 {
-    abstract class MapperView : IMapperView
+    internal abstract class MapperView : IMapperView
     {
         private Panel rootPanel;
 

@@ -1,10 +1,6 @@
-﻿using Charts.Chart.Identifier;
-using Charts.Factories;
+﻿using Charts.Factories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Charts.Chart.Registry
 {
@@ -25,7 +21,7 @@ namespace Charts.Chart.Registry
             } else {
                 currentCount = countInstancesList[type];
                 currentCount++;
-                countInstancesList[type] =  currentCount;
+                countInstancesList[type] = currentCount;
             }
 
             return currentCount;

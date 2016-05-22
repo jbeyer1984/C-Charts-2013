@@ -3,11 +3,6 @@ using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Identifier;
 using Charts.Factories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Charts.Chart.Wrapper
@@ -19,7 +14,6 @@ namespace Charts.Chart.Wrapper
         private PopupForm popupForm;
         private ChartPanel chartPanel;
         private SelectedOptionPanel selectedOptionPanel;
-
 
         public SelectedOptionPanelWrapper()
         {
@@ -65,7 +59,7 @@ namespace Charts.Chart.Wrapper
         {
             return Inst.getInstance().getConnector();
         }
-        
+
         public string Identifier
         {
             get { return identifier; }

@@ -30,7 +30,6 @@ namespace Charts
             Boolean found = false;
             foreach (ZoneBarByIndex zoneBarByIndex in zoneBarByIndexList) { // flow: go through all ZoneBars
                 if (zoneBarByIndex.Path.GetBounds().Contains(currentPoint)) {
-
                     this.selectZoneByOneClick(zoneBarByIndex);
 
                     //DebugSettings.log(String.Format("-- in contain -- index: {0}, selected: {1}", zoneBarByIndex.Index, zoneBarByIndex.Selected));

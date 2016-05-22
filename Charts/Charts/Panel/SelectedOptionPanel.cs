@@ -6,9 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Charts
@@ -70,7 +67,7 @@ namespace Charts
                 return;
             }
 
-            foreach (KeyValuePair < ZoneBarByIndex, bool> pair in chartPanelBar.OverwriteDataComponents.CollectionDrawerOverwrite.ZoneExecutorSeriesList[0].SelectedZoneBarList) {
+            foreach (KeyValuePair<ZoneBarByIndex, bool> pair in chartPanelBar.OverwriteDataComponents.CollectionDrawerOverwrite.ZoneExecutorSeriesList[0].SelectedZoneBarList) {
                 PointF[] rect = pair.Key.AreaToPaint;
                 Color color = dynamicDataSeries.LineStyle.LineColor;
                 aBrush = new SolidBrush(color);
@@ -91,6 +88,5 @@ namespace Charts
             get { return identifier; }
             set { identifier = value; }
         }
-
     }
 }

@@ -1,10 +1,9 @@
-﻿using Charts.Chart.CacheFolder.CacheInterfaces;
-using Charts.Chart.CacheFolder;
+﻿using Charts.Chart.CacheFolder;
+using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Identifier;
 using Charts.Chart.StateFolder;
 using Charts.Chart.StateFolder.StateInterfaces;
-using Charts.Chart.StaticCallsFolder;
 using Charts.Factories;
 using System;
 using System.Collections.Generic;
@@ -54,7 +53,7 @@ namespace Charts
 
         private Dictionary<String, DynamicData> dynamicDataSeriesList = new Dictionary<string, DynamicData>();
 
-        DataGridView dataGridView;
+        private DataGridView dataGridView;
 
         private OverwriteDataComponents overwriteDataComponents = new OverwriteDataComponents();
 
@@ -158,7 +157,6 @@ namespace Charts
         {
             Graphics g = e.Graphics;
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
 
             dataCollection.DataSeriesList.Clear();
             DataCollection.seriesCounter = 0;

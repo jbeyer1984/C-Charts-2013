@@ -1,6 +1,5 @@
 ﻿using Charts.Chart.Identifier;
 using System.Drawing;
-using System;
 
 namespace Charts
 {

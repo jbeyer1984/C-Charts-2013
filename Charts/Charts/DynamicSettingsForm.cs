@@ -1,10 +1,8 @@
 ﻿using Charts.Chart.CacheFolder;
-using Charts.Chart.CacheFolder.CacheInterfaces;
 using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Identifier;
 using Charts.Factories;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -41,7 +39,7 @@ namespace Charts
             this.initPanelPaintAlignment(); //@todo extract maybe to public
             //this.countInstanceUp(); // @todo extract to StateRegistry
         }
-        
+
         public void initDyanmicSettingsForm()
         {
             //ChartForm chartForm = chartForm;
@@ -66,11 +64,11 @@ namespace Charts
         /// <returns>DynamicPanel</returns>
         protected DynamicPanel getDynamicPanelInCache(ChartPanel panelToUpdate)
         {
-             return getCache()
-                .with(panelToUpdate)
-                .canBeNew()
-                .getByType(typeof(DynamicPanel)) as DynamicPanel
-            ;
+            return getCache()
+               .with(panelToUpdate)
+               .canBeNew()
+               .getByType(typeof(DynamicPanel)) as DynamicPanel
+           ;
         }
 
         protected Connector getConnector()
@@ -86,7 +84,7 @@ namespace Charts
         public void switchPanel(DynamicPanel currentDynamicPanel, DynamicPanel fetchedDynamicPanel)
         {
             isPanelSwitchable = false; // @todo extract dependency
-            
+
             currentDynamicPanel.Hide();
             currentDynamicPanel = fetchedDynamicPanel;
             currentDynamicPanel.Show();
@@ -170,7 +168,7 @@ namespace Charts
             if (!dynamicSettingsMapperPainted) {
                 this.clearPanels();
                 //ChartForm chartForm = Application.OpenForms["ChartForm"] as ChartForm;
-                //panelToUpdate = chartForm.CurrentClickedPanel; //@todo another approach 
+                //panelToUpdate = chartForm.CurrentClickedPanel; //@todo another approach
 
                 Panel panelChartStyle = new Panel();
                 panelChartStyle.Text = "ChartStyle";

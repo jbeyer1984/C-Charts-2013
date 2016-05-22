@@ -1,14 +1,8 @@
 ﻿using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Identifier;
-using Charts.Chart.StaticCallsFolder;
 using Charts.Factories;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Charts
@@ -51,6 +45,5 @@ namespace Charts
             get { return identifier; }
             set { identifier = value; }
         }
-
     }
 }

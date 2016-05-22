@@ -1,16 +1,15 @@
-﻿using NUnit.Framework;
-using Charts.Chart.ConnectorFolder;
+﻿using Charts.Chart.ConnectorFolder;
 using Charts.Chart.Debug;
+using NUnit.Framework;
 using System;
 using System.Windows.Forms;
-using Charts.Chart.StateFolder;
 
 namespace Charts.Tests
 {
     [TestFixture()]
     public class ConnectorTests
     {
-        Connector connector;
+        private Connector connector;
 
         [SetUp()]
         public void setUp()
