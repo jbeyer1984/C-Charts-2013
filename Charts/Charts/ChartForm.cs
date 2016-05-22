@@ -1,17 +1,26 @@
-﻿using System;
+﻿using Charts.Chart.ConnectorFolder;
+using Charts.Chart.Identifier;
+using Charts.Chart.StaticCallsFolder;
+using Charts.Factories;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-/// consists ChartPanel, the panel that consist chart display
+
 namespace Charts
 {
-    public partial class ChartForm : Form
+    /// consists ChartPanel, the panel that consist chart display
+    public partial class ChartForm : Form, IIdentifier
     {
         private PanelMatrix panelMatrix;
-        private ChartPanel chartPanel;
+        //private ChartPanel onlyLine;
         private int offsetPanelX = 10;
         private int offsetPanelY = 30;
+        private ChartPanel currentClickedPanel; //@todo should be mapped more general
+        private DynamicSettingsForm dynamicSettingsForm;
+
+        private String identifier;
 
         public ChartForm()
         {
@@ -20,26 +29,34 @@ namespace Charts
             this.BackColor = Color.White;
             this.Location = new Point(125, 124);
             this.Size = new Size(664, 437);
-
-            this.initChartPanel();
         }
 
-        private void initChartPanel()
+        public void initChartForm()
         {
             panelMatrix = new PanelMatrix(this);
-            chartPanel = new ChartPanelLine(panelMatrix);
-            chartPanel.Name = "ChartPanel";
+            this.collectInitializedChartPanelsInPanelMatrix(panelMatrix);
+            panelMatrix.addPanelsToForm(this);
+            //this.initDynamicSettingsForm();
+        }
 
-            DataTable data = new DataTable();
-            data.Columns.Add("x", typeof(float));
-            data.Columns.Add("y", typeof(float));
+        private void collectInitializedChartPanelsInPanelMatrix(PanelMatrix panelMatrix)
+        {
+            this.panelMatrix = panelMatrix;
+
+            ////onlyLine = new ChartPanelLine(panelMatrix);
+            //onlyLine = new ChartPanelLine();
+            //onlyLine.Name = "ChartPanel";
+
+            DataTable dataLine = new DataTable();
+            dataLine.Columns.Add("x", typeof(float));
+            dataLine.Columns.Add("y", typeof(float));
             for (int i = 0; i < 20; i++) {
-                //ds1.AddPoint(new PointF(i / 5.0f,
-                //(float)Math.Sin(i / 5.0f)));
-                data.Rows.Add(i, 4);
+                dataLine.Rows.Add(i, 4);
             }
 
-            chartPanel.Data = data;
+            //this.Controls.Add(dataGridView);
+
+            ChartPanel onlyLine = this.getBuilder().getBuiltChartPanelByData(new ChartPanelLine(), dataLine, "LinePanel");
 
             DataTable dataBar = new DataTable();
             dataBar.Columns.Add("x", typeof(float));
@@ -52,24 +69,21 @@ namespace Charts
                 dataBar.Rows.Add(x, y);
             }
 
-            ChartPanel onlyBar = new ChartPanelBar(panelMatrix);
-            onlyBar.Data = dataBar;
+            ChartPanel onlyBar = this.getBuilder().getBuiltChartPanelByData(new ChartPanelBar(), dataBar, "BarPanel");
+            getConnector().connect(onlyBar).by(this);
 
-            ChartPanel lineMergedBar = new ChartPanelBar(panelMatrix);
+            ChartPanel lineMergedBar = new ChartPanelBar();
             lineMergedBar.Data = dataBar;
-            lineMergedBar.AlternativeChartPanel = chartPanel;
+            lineMergedBar.AlternativeChartPanel = onlyLine;
+            lineMergedBar.initPanel();
 
-            //panelMatrix.add(new ChartPanel(panelMatrix));
-            panelMatrix.add(chartPanel);
+            panelMatrix.add(onlyLine);
             panelMatrix.add(onlyBar);
-            panelMatrix.add(lineMergedBar);
+        }
 
-            int size = panelMatrix.Matrix.Count;
-            for (int i = 0; i < size; i++) {
-                this.Controls.Add(panelMatrix.Matrix[i]);
-            }
-
-            this.initDynamicSettingsForm();
+        protected BuilderInstance getBuilder()
+        {
+            return Inst.getBuilder();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -77,17 +91,36 @@ namespace Charts
             panelMatrix.initSizeOfPanels();
         }
 
-        protected void initDynamicSettingsForm()
-        {
-            Form form = new DynamicSettingsForm();
-            form.Show();
-            form.Location = new Point(788, 124);
-            form.Size = new Size(547, 333);
-        }
-
         private void button1_Click_1(object sender, EventArgs e)
         {
             this.initDynamicSettingsForm();
+            this.showDynamicSettignsForm();
+        }
+
+        protected void initDynamicSettingsForm()
+        {
+            if (0 == panelMatrix.Matrix.Count) {
+                throw new Exception("there are no panels in panelMatrix");
+            }
+            this.currentClickedPanel = panelMatrix.Matrix[0];
+            this.dynamicSettingsForm = new DynamicSettingsForm();
+            Inst.getStaticCall().initIdentifierOneTime(this.dynamicSettingsForm);
+            getConnector().connect(this.dynamicSettingsForm).by(this);
+            //this.dynamicSettingsForm.initDyanmicSettingsForm(this);
+            this.dynamicSettingsForm.initDyanmicSettingsForm();
+            //form.Show();
+        }
+
+        public Connector getConnector()
+        {
+            return Inst.getInstance().getConnector();
+        }
+
+        protected void showDynamicSettignsForm()
+        {
+            this.dynamicSettingsForm.Show();
+            this.dynamicSettingsForm.Location = new Point(788, 124);
+            this.dynamicSettingsForm.Size = new Size(547, 333);
         }
 
         public int OffsetPanelX
@@ -100,6 +133,30 @@ namespace Charts
         {
             get { return offsetPanelY; }
             set { offsetPanelY = value; }
+        }
+
+        public PanelMatrix PanelMatrix
+        {
+            get { return panelMatrix; }
+            set { panelMatrix = value; }
+        }
+
+        public ChartPanel CurrentClickedPanel
+        {
+            get { return currentClickedPanel; }
+            set { currentClickedPanel = value; }
+        }
+
+        public DynamicSettingsForm DynamicSettingsForm
+        {
+            get { return dynamicSettingsForm; }
+            set { dynamicSettingsForm = value; }
+        }
+
+        public String Identifier
+        {
+            get { return identifier; }
+            set { identifier = value; }
         }
     }
 }

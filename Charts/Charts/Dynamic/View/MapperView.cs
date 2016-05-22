@@ -19,7 +19,7 @@ namespace Charts
 
         public void addControl(Control control)
         {
-            Console.WriteLine("mapper view width of control: {0}", control.Width);
+            //Console.WriteLine("mapper view width of control: {0}", control.Width);
             int width = rootPanel.Width / 2;
 
             Label label = new Label();

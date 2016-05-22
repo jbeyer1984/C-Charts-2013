@@ -1,0 +1,36 @@
+@startuml
+Participant callOfPaint
+
+callOfPaint -> ChartPanel
+ChartPanel -> ChartPanel : PlotPanelPaint(object sender, PaintEventArgs e)
+activate ChartPanel
+    ChartPanel -> ChartPanelLine
+        ChartPanelLine -> ChartPanelLine : fillChartType() internal Call
+        activate ChartPanelLine
+            activate ChartPanelLine
+            ChartPanelLine -> ChartPanel
+                
+                ChartPanel -> ChartPanel : fillChartType()
+                note right: Plot the Line or Bar
+                    activate ChartPanel
+                    ChartPanel -> ChartPanelLine
+                        ChartPanelLine -> ChartPanelLine : addData() internal call
+                        ChartPanelLine -> ChartPanel
+                    ChartPanel -> ChartPanel : setPlotArea()
+                    ChartPanel -> ChartPanelLine
+                    deactivate ChartPanel
+'                deactivate ChartPanel
+                
+                create CollectionDrawerLine
+                ChartPanelLine -> CollectionDrawerLine : lineDrawer =
+                ChartPanelLine -> CollectionDrawerLine : lineDrawer call
+                CollectionDrawerLine -> CollectionDrawerLine : drawCollection(g)
+                CollectionDrawerLine -> ChartPanelLine
+            deactivate ChartPanelLine
+        deactivate ChartPanelLine
+    
+    ChartPanelLine -> ChartPanel
+deactivate ChartPanel
+
+ChartPanel -> callOfPaint
+@enduml

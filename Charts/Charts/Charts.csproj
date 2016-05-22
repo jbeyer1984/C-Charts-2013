@@ -32,8 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy, Version=1.25.3.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.1.25.3\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -42,6 +50,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,7 +63,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chart\BarStyle.cs" />
+    <Compile Include="Chart\CacheFolder\Cache.cs" />
+    <Compile Include="Chart\CacheFolder\CacheInterfaces\ICache.cs" />
+    <Compile Include="Chart\CacheFolder\CacheInterfaces\ICacheAble.cs" />
     <Compile Include="Chart\ChartStyle.cs" />
+    <Compile Include="Chart\CollectionDrawer\CollectionDrawerOverwrite.cs" />
+    <Compile Include="Chart\CollectionDrawer\CollectionDrawerAbstract.cs" />
+    <Compile Include="Chart\CollectionDrawer\CollectionDrawerBar.cs" />
+    <Compile Include="Chart\CollectionDrawer\CollectionDrawerLine.cs" />
+    <Compile Include="Chart\ConnectorFolder\Connector.cs" />
+    <Compile Include="Chart\ConnectorFolder\ConnectorInterfaces\IConnector.cs" />
+    <Compile Include="Chart\Debug\DebugSettings.cs" />
+    <Compile Include="Chart\Wrapper\DataTablePanelWrapper.cs" />
+    <Compile Include="Chart\Wrapper\SelectedOptionPanelWrapper.cs" />
+    <Compile Include="Chart\Identifier\IdentifierInterfaces\IIdentifier.cs" />
+    <Compile Include="Chart\PopupFolder\Popup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Chart\Registry\RegistryCountInstances.cs" />
+    <Compile Include="Chart\Select\SelectInterface\IZoneSelect.cs" />
+    <Compile Include="Chart\StateFolder\StateAbstract.cs" />
+    <Compile Include="Chart\StateFolder\StateChartPanelBar.cs" />
+    <Compile Include="Chart\StateFolder\StateInterfaces\IStateFull.cs" />
+    <Compile Include="Chart\StaticCallsFolder\StaticCall.cs" />
+    <Compile Include="Chart\Zone\ZoneInterfaces\IExecutor.cs" />
+    <Compile Include="Chart\Zone\ZoneInterfaces\IExecutorIndexByClick.cs" />
+    <Compile Include="Chart\Zone\ZoneInterfaces\IMapperZoneExecutor.cs" />
+    <Compile Include="Chart\Zone\ZoneInterfaces\IOverwriteWithExecutor.cs" />
+    <Compile Include="Chart\Zone\Executor\ZoneExecutorDrawSeries.cs" />
+    <Compile Include="Chart\Zone\Komponent\OverwriteDataComponents.cs" />
+    <Compile Include="Chart\Registry\RegistryInterfaces\IRegisterAble.cs" />
+    <Compile Include="Chart\Registry\RegistryInterfaces\IRegistry.cs" />
+    <Compile Include="Chart\Registry\RegistryCollectionDrawerOverwrite.cs" />
+    <Compile Include="Chart\Zone\ZoneBarByIndex.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Chart\DataCollection.cs" />
     <Compile Include="Chart\DataSeries.cs" />
@@ -83,6 +124,18 @@
     <Compile Include="Dynamic\View\IMapperView.cs" />
     <Compile Include="Dynamic\View\MapperView.cs" />
     <Compile Include="Dynamic\View\MapperViewWithLabel.cs" />
+    <Compile Include="Factories\BuilderInstance.cs" />
+    <Compile Include="Factories\IInst.cs" />
+    <Compile Include="Factories\Inst.cs" />
+    <Compile Include="Factories\InstanceInstance.cs" />
+    <Compile Include="Factories\RegistryInstance.cs" />
+    <Compile Include="FormsFolder\PopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormsFolder\PopupForm.Designer.cs">
+      <DependentUpon>PopupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="LineStyle.cs" />
     <Compile Include="Panel\ChartPanelBar.cs">
       <SubType>Component</SubType>
@@ -90,7 +143,10 @@
     <Compile Include="Panel\ChartPanelLine.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Panel\ChartPanel.cs">
+    <Compile Include="Panel\ChartPanelAbstract.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\DynamicPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panel\LineStyleColorBox.cs">
@@ -103,6 +159,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panel\PanelMatrix.cs" />
+    <Compile Include="Panel\DataTablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panel\SelectedOptionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">
@@ -120,6 +182,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -136,7 +201,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\RefactoringEssentials.4.1.0\analyzers\dotnet\RefactoringEssentials.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,31 +1,48 @@
-﻿using Charts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Charts;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 
-namespace ChartsTest
+namespace NUnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class DynamicSettingsFormTests
     {
         private TestContext tci;
+        private ChartForm chartForm;
+        private PanelMatrix panelMatrix;
+        private DynamicSettingsForm form;
 
-        [TestMethod]
-        public void addPanel()
+        [SetUp]
+        public void setup()
         {
-            ChartForm chartForm = new ChartForm();
-            PanelMatrix panelMatrix = new PanelMatrix(chartForm);
-            ChartPanel chartPanel = new ChartPanel(panelMatrix);
-            DynamicSettingsForm form = new DynamicSettingsForm();
+            //chartForm = new ChartForm();
+            //panelMatrix = new PanelMatrix(chartForm);
+            //ChartPanel chartPanel = new ChartPanel(panelMatrix);
+            form = new DynamicSettingsForm();
+        }
 
+        [Test]
+        public void width_and_height_of_Grid()
+        {
             // this value is set hard in class, not a good approach
-            form.DivisorHorizontal = 3;
+            form.DivisorHorizontal = 3; // number of panels in row
             // this value is set hard in class, not a good approach
-            form.DivisorVertical = 2;
-            Assert.AreEqual(form.GridWidth, ((form.ClientRectangle.Width - 40) / form.DivisorHorizontal));
+            form.DivisorVertical = 2; // number of panels in column
+            Assert.AreEqual(form.GridWidth, ((form.ClientRectangle.Width - form.SpaceWidth) / form.DivisorHorizontal));
             Assert.AreEqual(form.GridHeight, (form.ClientRectangle.Height / form.DivisorVertical));
             Assert.AreEqual(0, form.PosX);
             Assert.AreEqual(0, form.PosY);
+        }
 
+        [Test]
+        public void positons_after_addPanel()
+        {
             nTimesAddPanelInRow(form, form.DivisorHorizontal, 0);
             nTimesAddPanelInRow(form, form.DivisorHorizontal, 1);
         }
@@ -56,4 +73,13 @@ namespace ChartsTest
             }
         }
     }
+    //public class TestClass
+    //{
+    //    [Test]
+    //    public void TestMethod()
+    //    {
+    //        // TODO: Add your test code here
+    //        Assert.Pass("Your first passing test");
+    //    }
+    //}
 }

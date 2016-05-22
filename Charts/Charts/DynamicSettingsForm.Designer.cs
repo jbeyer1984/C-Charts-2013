@@ -35,7 +35,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 295);
+            this.ClientSize = new System.Drawing.Size(570, 403);
             this.Name = "DynamicSettingsForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "DynamicSettings";

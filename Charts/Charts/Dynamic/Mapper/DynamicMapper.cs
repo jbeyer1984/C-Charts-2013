@@ -3,12 +3,15 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace Charts
 {
     internal abstract class DynamicMapper
     {
         private Panel panelToUpdate;
+
+        private ArrayList panelsToUpdate = new ArrayList();
 
         private DynamicData dynamicData;
 
@@ -81,7 +84,7 @@ namespace Charts
             } catch (Exception ex) {
             }
 
-            panelToUpdate.Invalidate();
+            this.updatePanels();
         }
 
         protected void handleColorBox(Object sender, EventArgs e, PropertyInfo property, ColorBox lineStyleBox)
@@ -89,27 +92,46 @@ namespace Charts
             Color color = Color.FromName(lineStyleBox.SelectedItem.ToString());
             property.SetValue(dynamicData, color, null);
 
-            panelToUpdate.Invalidate();
+            this.updatePanels();
         }
 
         protected void handleLineStyleBox(Object sender, EventArgs e, PropertyInfo property, ComboBox lineStyleBox)
         {
             LineStyle lineStyle = (LineStyle)property.GetValue(dynamicData, null);
-            if (lineStyleBox.GetType() == typeof(LineStylePatternBox)) {
+            if (lineStyleBox is LineStylePatternBox) {
                 lineStyle.Pattern = (DashStyle)Enum.Parse(typeof(DashStyle), (String)lineStyleBox.SelectedItem);
-            } else if (lineStyleBox.GetType() == typeof(ColorBox)) {
+            } else if (lineStyleBox is ColorBox) {
                 lineStyle.LineColor = Color.FromName(lineStyleBox.SelectedItem.ToString());
-            } else if (lineStyleBox.GetType() == typeof(LineStyleThicknessBox)) {
+            } else if (lineStyleBox is LineStyleThicknessBox) {
                 lineStyle.Thickness = (int)lineStyleBox.SelectedItem;
             }
 
+            this.updatePanels();
+        }
+
+        private void updatePanels()
+        {
+            if (null == panelToUpdate) {
+                return;
+            }
             panelToUpdate.Invalidate();
+            if (0 < panelsToUpdate.Count) {
+                foreach (Panel panel in panelsToUpdate) {
+                    panel.Invalidate();
+                }
+            }
         }
 
         public Panel PanelToUpdate
         {
             get { return panelToUpdate; }
             set { panelToUpdate = value; }
+        }
+
+        public ArrayList PanelsToUpdate
+        {
+            get { return panelsToUpdate; }
+            set { panelsToUpdate = value; }
         }
 
         public DynamicData DynamicData

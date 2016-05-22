@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Charts.Chart.Debug;
+using Charts.Chart.StaticCallsFolder;
+using Charts.Factories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +19,13 @@ namespace Charts
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ChartForm());
+            //DebugSettings.deleteLogFile();
+            DebugSettings.debug = true;
+            DebugSettings.log("---------------------------------------");
+            ChartForm chartForm = new ChartForm();
+            Inst.getStaticCall().initIdentifierOneTime(chartForm); // @todo extract in builder
+            chartForm.initChartForm();
+            Application.Run(chartForm);
         }
     }
 }
