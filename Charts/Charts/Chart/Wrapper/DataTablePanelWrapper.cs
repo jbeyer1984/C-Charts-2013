@@ -48,6 +48,8 @@ namespace Charts.Chart.Wrapper
             popupForm.Show();
             popupForm.TopMost = true;
             dataTablePanel.Show();
+            popupForm.Left = chartPanel.Location.X + 500;
+            popupForm.Top = chartPanel.Location.Y + 400;
 
             chartPanel.State.State = EnumChartPanelState.selectedOption.ToString();
         }

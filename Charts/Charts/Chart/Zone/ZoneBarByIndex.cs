@@ -14,13 +14,12 @@ namespace Charts
         private int index;
         private Color color;
         private Color colorBarFill;
+        private Color tempColor;
 
         private RectangleF areaToClick;
         private PointF[] areaToPaint;
         private bool selected;
         private float thickness;
-
-        //private IExecutorByClick executorIndexByClick;
 
         private GraphicsPath path;
 
@@ -29,11 +28,19 @@ namespace Charts
             this.chartPanel = chartPanel;
         }
 
-        //public IExecutorByClick ExecutorIndexByClick
-        //{
-        //    get { return executorIndexByClick; }
-        //    set { executorIndexByClick = value; }
-        //}
+        /// <summary>
+        /// copy constructor, exists because of interferencing different overwritten layers with zones
+        /// </summary>
+        /// <param name="zoneBarByIndex"></param>
+        public ZoneBarByIndex(ZoneBarByIndex zoneBarByIndex)
+        {
+            this.color = zoneBarByIndex.Color;
+            this.colorBarFill = zoneBarByIndex.ColorBarFill;
+            this.areaToClick = zoneBarByIndex.AreaToClick;
+            this.areaToPaint = zoneBarByIndex.AreaToPaint;
+            this.selected = zoneBarByIndex.selected;
+            this.thickness = zoneBarByIndex.thickness;
+        }
 
         public void mapExecutor()
         {
@@ -74,6 +81,12 @@ namespace Charts
         {
             get { return colorBarFill; }
             set { colorBarFill = value; }
+        }
+
+        public Color TempColor
+        {
+            get { return tempColor; }
+            set { tempColor = value; }
         }
 
         public bool Selected

@@ -1,17 +1,27 @@
-﻿using Charts.Chart.Identifier;
+﻿using Charts.Chart.CacheFolder.CacheInterfaces;
+using Charts.Chart.Identifier;
+using Charts.Factories;
 using System.Drawing;
+using System;
 
 namespace Charts
 {
-    internal abstract class CollectionDrawer : IIdentifier
+    public abstract class CollectionDrawer : IIdentifier, ICacheAble
     {
         private ChartPanel chartPanel;
         private string identifier;
+        private bool isAlreadyCreated;
+
+        public CollectionDrawer()
+        {
+        }
 
         public CollectionDrawer(ChartPanel chartPanel)
         {
             this.chartPanel = chartPanel;
         }
+
+        public abstract void init();
 
         public abstract void drawCollection(Graphics g);
 
@@ -25,6 +35,12 @@ namespace Charts
         {
             get { return identifier; }
             set { identifier = value; }
+        }
+
+        public bool IsAlreadyCreated
+        {
+            get { return isAlreadyCreated; }
+            set { isAlreadyCreated = value; }
         }
     }
 }

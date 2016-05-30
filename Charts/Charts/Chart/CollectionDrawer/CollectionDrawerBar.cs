@@ -1,4 +1,5 @@
-﻿using Charts.Chart.StaticCallsFolder;
+﻿using Charts.Chart.Debug;
+using Charts.Chart.StaticCallsFolder;
 using Charts.Chart.Zone.ZoneInterfaces;
 using Charts.Factories;
 using System;
@@ -9,11 +10,16 @@ namespace Charts
 {
     internal class CollectionDrawerBar : CollectionDrawer
     {
-        private IExecutorByClick currentExecutorByClick;
+        private ZoneExecutorDrawSeries currentExecutorByClick;
 
-        public CollectionDrawerBar(ChartPanel chartPanel)
-            : base(chartPanel)
+        public CollectionDrawerBar()
+            : base()
         {
+        }
+
+        public override void init()
+        {
+            ChartPanel = Inst.getInstance().getConnector().with(this).getByType(typeof(ChartPanelBar)) as ChartPanel;
         }
 
         public override void drawCollection(Graphics g)
@@ -70,7 +76,7 @@ namespace Charts
                 float width;
 
                 if (null != ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite) {
-                    ((ZoneExecutorDrawSeries)currentExecutorByClick).DataSeries = ds;
+                    ((ZoneExecutorDrawSeries) currentExecutorByClick).DataSeries = ds;
                 }
 
                 if (chartStyle.dd.styleType == DynamicDataChartStyle.StyleEnum.Bar) {
@@ -101,6 +107,9 @@ namespace Charts
                             if (null != ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite
                                 && isInvalidate) {
                                 ZoneBarByIndex zoneBarByIndex = new ZoneBarByIndex(ChartPanel);
+                                if (ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.IsBarsCreated) {
+                                    zoneBarByIndex = ((ZoneExecutorDrawSeries) currentExecutorByClick).ZoneBarByIndexList[i];
+                                }
                                 zoneBarByIndex.Index = i;
                                 zoneBarByIndex.Color = Color.Yellow;
                                 RectangleF areaToClick = new RectangleF(
@@ -115,7 +124,9 @@ namespace Charts
                                 GraphicsPath graphicsPath = new GraphicsPath();
                                 graphicsPath.AddLines(pts);
                                 zoneBarByIndex.Path = graphicsPath;
-                                ((ZoneExecutorDrawSeries)currentExecutorByClick).ZoneBarByIndexList.Add(zoneBarByIndex);
+                                if (!ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.IsBarsCreated) {
+                                    ((ZoneExecutorDrawSeries) currentExecutorByClick).ZoneBarByIndexList.Add(zoneBarByIndex);
+                                }
                                 //button.Tag = zoneBarByIndex;
                                 //button.Click += new EventHandler(currentExecutorByClick.executeClick);
                                 //button.Left = (int)pts[0].X;
@@ -148,13 +159,16 @@ namespace Charts
                 }
                 n++;
                 aPen.Dispose();
+                aBrush.Dispose();
             }
             if (null != ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite) {
-                ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.IsButtonsCreated = true;
+                ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.IsBarsCreated = true;
+
+                ChartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.fillSelectedBars(g);
             }
         }
 
-        public IExecutorByClick CurrentExecutorByClick
+        public ZoneExecutorDrawSeries CurrentExecutorByClick
         {
             get { return currentExecutorByClick; }
             set { currentExecutorByClick = value; }

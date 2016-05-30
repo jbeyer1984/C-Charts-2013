@@ -76,5 +76,21 @@ namespace Charts.Factories
             dataTablePanelWrapper.init();
             return dataTablePanelWrapper;
         }
+
+        public virtual CollectionDrawer getBuiltCollectionDrawerBarOneTime(CollectionDrawer collectionDrawer, ChartPanel chartPanel)
+        //public virtual CollectionDrawer getBuiltCollectionDrawer(CollectionDrawer collectionDrawer)
+        {
+            collectionDrawer = Inst.getInstance().getCache().with(chartPanel).canBeNew().getByType(typeof(CollectionDrawerBar)) as CollectionDrawerBar;
+            if (collectionDrawer.IsAlreadyCreated) {
+                return collectionDrawer;
+            }
+
+            collectionDrawer.IsAlreadyCreated = true;
+            Inst.getStaticCall().initIdentifierOneTime(collectionDrawer);
+            Inst.getInstance().getConnector().connect(collectionDrawer).by(chartPanel);
+            collectionDrawer.init();
+            
+            return collectionDrawer;
+        }
     }
 }

@@ -31,6 +31,7 @@ namespace Charts
             ChartPanel chartPanel = sender as ChartPanel;
 
             Boolean found = false;
+            selectedZoneBarList.Clear(); // @todo approach for only single click
             foreach (ZoneBarByIndex zoneBarByIndex in zoneBarByIndexList) { // flow: go through all ZoneBars
                 if (zoneBarByIndex.Path.GetBounds().Contains(currentPoint)) {
                     this.selectZoneByOneClick(zoneBarByIndex);
@@ -45,10 +46,12 @@ namespace Charts
                 lastPrintedIndex++;
             }
 
+            chartPanel.Refresh();
             if (found) {
                 StaticCall.changeChartPanelState(chartPanel, EnumChartPanelState.isMarkedSelected);
-                chartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
+                //chartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
             }
+            chartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
 
             DebugSettings.log("*** after executeClick in Zone Executor ***");
         }

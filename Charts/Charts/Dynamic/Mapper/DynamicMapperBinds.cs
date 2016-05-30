@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
+    /// <summary>
+    /// bind configuration for dynamicMapper
+    /// </summary>
     internal class DynamicMapperBinds : DynamicMapper
     {
         //private Panel panelToBind;

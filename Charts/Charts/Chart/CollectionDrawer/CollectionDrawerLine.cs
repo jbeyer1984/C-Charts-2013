@@ -9,6 +9,11 @@ namespace Charts
         {
         }
 
+        public override void init()
+        {
+            //chartPanel = Inst.getInstance().getConnector().with(this).getByType(typeof(ChartPanel)) as ChartPanel;
+        }
+
         public override void drawCollection(Graphics g)
         {
             this.drawLines(g);

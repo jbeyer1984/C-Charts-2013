@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Charts
 {
+    /// <summary>
+    /// @todo comment this class
+    /// </summary>
     public partial class DynamicSettingsForm : Form, IIdentifier
     {
         public int numOfAddedInstances = 0;

@@ -117,10 +117,10 @@ namespace Charts
             if (null == panelToUpdate) {
                 return;
             }
-            panelToUpdate.Invalidate();
+            panelToUpdate.Refresh();
             if (0 < panelsToUpdate.Count) {
                 foreach (Panel panel in panelsToUpdate) {
-                    panel.Invalidate();
+                    panel.Refresh();
                 }
             }
         }

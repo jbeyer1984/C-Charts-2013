@@ -1,4 +1,5 @@
 ﻿using Charts.Chart.StateFolder;
+using Charts.Chart.StaticCallsFolder;
 using Charts.Chart.Wrapper;
 using Charts.Factories;
 using System.Data;
@@ -9,11 +10,22 @@ namespace Charts
 {
     public class ChartPanelBar : ChartPanel
     {
+        private bool switchColor = false;
+
         public ChartPanelBar() :
             base()
         {
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             ResizeRedraw = true;
+
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.UserPaint |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.ResizeRedraw |
+                          ControlStyles.ContainerControl |
+                          ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.SupportsTransparentBackColor
+                          , true);
         }
 
         public override void initPanel()
@@ -49,16 +61,57 @@ namespace Charts
                 ds.BarStyle.dd.BarWidth = 0.6f;
                 DynamicDataSeriesList.Add(ds.SeriesName, ds.BarStyle.dd);
             } else {
-                ds.BarStyle.dd = (DynamicDataBar)DynamicDataSeriesList[ds.SeriesName];
+                ds.BarStyle.dd = (DynamicDataBar) DynamicDataSeriesList[ds.SeriesName];
             }
         }
 
         protected override void PlotPanelPaint(object sender, PaintEventArgs e)
         {
             getState(this.GetType()).State = EnumChartPanelState.invalidate.ToString();
-            base.PlotPanelPaint(sender, e);
+
+            //if (!StaticCall.isChartPanelGlobalModeEqual(this, EnumChartPanelGlobalMode.select)) {
+                base.PlotPanelPaint(sender, e);
+            //}
 
             getState(this.GetType()).State = EnumChartPanelState.isDrawn.ToString();
+
+            //this.testQucikPaint(sender, e);
+        }
+
+        protected void testQucikPaint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            Color color;
+            if (switchColor) {
+                color = Color.Red;
+                switchColor = false;
+            } else {
+                color = Color.Blue;
+                switchColor = true;
+            }
+
+            Pen aPen = new Pen(Color.Red,
+                2.0f);
+            SolidBrush aBrush = new SolidBrush(color);
+            aPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+
+            //PointF pt;
+
+
+            float width;
+
+            PointF[] pts = new PointF[4];
+
+            pts[0] = new PointF(0, 0);
+            pts[1] = new PointF(0, 200);
+            pts[2] = new PointF(200, 200);
+            pts[3] = new PointF(200, 0);
+
+            g.FillPolygon(aBrush, pts);
+            g.DrawPolygon(aPen, pts);
+
+            //g.Dispose();
         }
 
         protected void mouseClickBar(object sender, MouseEventArgs e)
@@ -82,9 +135,11 @@ namespace Charts
                 dataTablePanelWrapper.show();
                 selectedOptionPanelWrapper.show();
             } else {
-                dataTablePanelWrapper.hide();
-                selectedOptionPanelWrapper.hide();
+                //dataTablePanelWrapper.hide();
+                //selectedOptionPanelWrapper.hide();
             }
+
+            //this.Invalidate();
 
             //this.overrideSelectedBar();
         }
@@ -98,7 +153,8 @@ namespace Charts
         {
             base.fillChartType(g, data);
 
-            CollectionDrawer barDrawer = new CollectionDrawerBar(this);
+            CollectionDrawer barDrawer = new CollectionDrawerBar();
+            barDrawer = Inst.getBuilder().getBuiltCollectionDrawerBarOneTime(barDrawer, this);
             //DataCollection.addBars(g, ChartStyle, 1, 4);
             barDrawer.drawCollection(g);
             Legend.AddLegend(g, DataCollection, ChartStyle);

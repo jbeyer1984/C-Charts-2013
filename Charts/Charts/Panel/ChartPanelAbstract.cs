@@ -82,7 +82,8 @@ namespace Charts
 
         protected void dataGridChange(object sender, DataGridViewCellEventArgs e)
         {
-            this.Invalidate();
+            this.Refresh();
+            //this.OverwriteDataComponents.CollectionDrawerOverwrite.fillSelectedBars();
         }
 
         public virtual void initPanel()
@@ -166,7 +167,7 @@ namespace Charts
             }
             this.fillChartType(g, data);
 
-            g.Dispose();
+            //g.Dispose();
         }
 
         public virtual void fillChartType(Graphics g, DataTable data)
