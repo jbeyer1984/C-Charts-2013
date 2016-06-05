@@ -2,9 +2,12 @@
 using Charts.Chart.StaticCallsFolder;
 using Charts.Chart.Wrapper;
 using Charts.Factories;
+using System;
 using System.Data;
 using System.Drawing;
+using WForms = System.Windows.Forms;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Charts
 {
@@ -114,14 +117,20 @@ namespace Charts
             //g.Dispose();
         }
 
-        protected void mouseClickBar(object sender, MouseEventArgs e)
+        protected void mouseClickBar(object sender, WForms.MouseEventArgs e)
         {
             State.State = EnumChartPanelState.isSelected.ToString();
             State.GlobalMode = EnumChartPanelGlobalMode.select.ToString();
 
-            MouseEventArgs me = e as MouseEventArgs;
+            WForms.MouseEventArgs me = e as WForms.MouseEventArgs;
 
             if (e.Button == MouseButtons.Left) {
+                if (Keyboard.IsKeyDown(Key.LeftShift)) {
+                    StaticCall.changeChartPanelSelectMode(this, EnumChartPanelSelectMode.isMultipleSelect);
+                } else {
+                    StaticCall.changeChartPanelSelectMode(this, EnumChartPanelSelectMode.isOneSelect);
+                }
+
                 foreach (ZoneExecutorDrawSeries zoneExecutorDrawSeries in OverwriteDataComponents.CollectionDrawerOverwrite.ZoneExecutorSeriesList) {
                     zoneExecutorDrawSeries.executeClick(sender, me);
                 }

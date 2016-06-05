@@ -31,7 +31,11 @@ namespace Charts
             ChartPanel chartPanel = sender as ChartPanel;
 
             Boolean found = false;
-            selectedZoneBarList.Clear(); // @todo approach for only single click
+            
+            if (StaticCall.isChartPanelSelectModeEqual(chartPanel, EnumChartPanelSelectMode.isOneSelect)) {
+                selectedZoneBarList.Clear();
+            }
+
             foreach (ZoneBarByIndex zoneBarByIndex in zoneBarByIndexList) { // flow: go through all ZoneBars
                 if (zoneBarByIndex.Path.GetBounds().Contains(currentPoint)) {
                     this.selectZoneByOneClick(zoneBarByIndex);
@@ -40,13 +44,18 @@ namespace Charts
 
                     found = true;
                 } else {
-                    zoneBarByIndex.Selected = false;
+                    if (StaticCall.isChartPanelSelectModeEqual(chartPanel, EnumChartPanelSelectMode.isOneSelect)) {
+                        zoneBarByIndex.Selected = false;
+                    }
                     //DebugSettings.log(String.Format("index: {0}, selected: {1}", zoneBarByIndex.Index, zoneBarByIndex.Selected));
                 }
                 lastPrintedIndex++;
             }
 
-            chartPanel.Refresh();
+            //if (StaticCall.isChartPanelSelectModeEqual(chartPanel, EnumChartPanelSelectMode.isOneSelect)) {
+                chartPanel.Refresh();
+            //}
+
             if (found) {
                 StaticCall.changeChartPanelState(chartPanel, EnumChartPanelState.isMarkedSelected);
                 //chartPanel.OverwriteDataComponents.CollectionDrawerOverwrite.markDrawCollection();
@@ -62,7 +71,7 @@ namespace Charts
                 selectedZoneBarList.Remove(zoneBarByIndex);
                 zoneBarByIndex.Selected = false;
             } else {
-                selectedZoneBarList.Clear();
+                //selectedZoneBarList.Clear();
                 zoneBarByIndex.Selected = true;
                 selectedZoneBarList.Add(zoneBarByIndex, true);
             }

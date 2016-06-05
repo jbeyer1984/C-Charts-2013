@@ -89,6 +89,7 @@ namespace Charts
 
             g.DrawPath(aPen, path);
             aPen.Dispose();
+            g.Dispose();
         }
 
         public void overwriteSelectedBar(object sender, EventArgs e)
@@ -100,6 +101,7 @@ namespace Charts
                     list.Add(pair.Key);
                 }
             }
+            g.Dispose();
 
             historyOfZones.Add(list);
         }

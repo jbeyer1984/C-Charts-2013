@@ -67,16 +67,19 @@ namespace Charts
                 return;
             }
 
+            Graphics g = chartPanelBar.CreateGraphics();
+
+            Color color = dynamicDataSeries.LineStyle.LineColor;
+            aBrush = new SolidBrush(color);
+            PointF[] rect = null;
             foreach (KeyValuePair<ZoneBarByIndex, bool> pair in chartPanelBar.OverwriteDataComponents.CollectionDrawerOverwrite.ZoneExecutorSeriesList[0].SelectedZoneBarList) {
                 chartPanelBar.OverwriteDataComponents.CollectionDrawerOverwrite.overwriteSelectedBar(sender, e);
 
-                PointF[] rect = pair.Key.AreaToPaint;
-                Color color = dynamicDataSeries.LineStyle.LineColor;
+                rect = pair.Key.AreaToPaint;
                 pair.Key.TempColor = color;
-                aBrush = new SolidBrush(color);
-                Graphics g = chartPanelBar.CreateGraphics();
                 g.FillPolygon(aBrush, rect);
             }
+            g.Dispose();
 
             StaticCall.changeChartPanelGlobalMode(chartPanelBar, EnumChartPanelGlobalMode.append);
         }
